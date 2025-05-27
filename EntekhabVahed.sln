@@ -13,15 +13,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentatio
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{4B541D65-29D2-4129-B4C2-28E88ED7BE6B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EV.Common", "EV.Common\EV.Common.csproj", "{0A5FE58A-8585-46A6-A1EC-35703A3511E4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EV.Common", "EV.Common\EV.Common.csproj", "{0A5FE58A-8585-46A6-A1EC-35703A3511E4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EV.Application", "EV.Application\EV.Application.csproj", "{890D3B27-B5F4-4A3B-8EFB-41B5BC874553}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EV.Application", "EV.Application\EV.Application.csproj", "{890D3B27-B5F4-4A3B-8EFB-41B5BC874553}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EV.Domain", "EV.Domain\EV.Domain.csproj", "{9251E724-2147-40DC-BEFC-198AD0970D38}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EV.Domain", "EV.Domain\EV.Domain.csproj", "{9251E724-2147-40DC-BEFC-198AD0970D38}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EV.Presistance", "EV.Presistance\EV.Presistance.csproj", "{75DBBF10-0DFC-434C-8A83-09A699EFBA92}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EV.Presistance", "EV.Presistance\EV.Presistance.csproj", "{75DBBF10-0DFC-434C-8A83-09A699EFBA92}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EV.Web", "EV.Web\EV.Web.csproj", "{A1D3BD59-7871-440D-83BF-49254AE936BB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EV.Web", "EV.Web\EV.Web.csproj", "{A1D3BD59-7871-440D-83BF-49254AE936BB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

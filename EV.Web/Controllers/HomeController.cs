@@ -18,6 +18,20 @@ namespace EV.Web.Controllers
             return View();
         }
 
+        [HttpGet]
+        public IActionResult SetTimes(int timesCount)
+        {
+            ViewBag.TimesCount = timesCount;
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult SetTimes(TimeOnly time)
+        {
+
+            return Json(1);
+        }
+
         public IActionResult Privacy()
         {
             return View();

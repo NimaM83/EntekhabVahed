@@ -1,6 +1,6 @@
 ﻿@{
 	Layout = null;
-	int timesCount = 0;
+	TimeOnly time = new TimeOnly();
 }
 
 <!DOCTYPE html>
@@ -14,6 +14,7 @@
 	<link rel="stylesheet" type="text/css" href="~/css/bootstrap4-rtl.min.css">
 	<link rel="stylesheet" type="text/css" href="~/css/font-awesome.min.css">
 	<link rel="stylesheet" type="text/css" href="~/css/style.css" />
+	<link rel="stylesheet" href="~/css/flatpickr.min.css" />
 </head>
 <body class="rtl">
 	<div class="contact1">
@@ -21,13 +22,13 @@
 			<div class="contact1-pic js-tilt" data-tilt>
 				<img src="pics/img-01.png" alt="IMG">
 			</div>
-			<form class="contact1-form validate-form" method="get" asp-action="SetTimes" asp-route-timesCount="@timesCount">
+			<form class="contact1-form validate-form" method="post" asp-route-time="@time">
 				<span class="contact1-form-title">فرم ساعات کلاس</span>
 				<div class="wrap-input1 validate-input" data-validate="تعداد ساعات کلاس">
-					<input class="input1" asp-for="@timesCount" type="number" min="3" max="10" >
+					<input class="input1" id="timePicker" asp-for="@time" type="time" min="3:00" max="23:59" step="900">
 					<span class="shadow-input1"></span>
 				</div>
-				
+
 				<div class="container-contact1-form-btn">
 					<button class="contact1-form-btn" type="submit">
 						<span>
@@ -42,5 +43,14 @@
 	<!-- Scripts -->
 	<script src="~/js/jquery-3.1.1.min.js"></script>
 	<script src="~/js/scripts.js"></script>
+	<script src="~/js/flatpickr.min.js"></script>
+	<script>
+		flatpickr("#timePicker", {
+			enableTime: true,
+			noCalendar: true,
+			dateFormat: "H:i",  // 24 ساعته
+			time_24hr: true
+		});
+	</script>
 </body><!-- This template has been downloaded from Webrubik.com -->
 </html>
