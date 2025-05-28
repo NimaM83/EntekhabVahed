@@ -9,9 +9,8 @@ namespace EV.Domain.Entities.Time
     public  class Time
     {
         public Guid Id { get; set; }
-        public DateTime From { get; set; }
-        public DateTime To { get; set; }
+        public TimeOnly From { get; set; }
+        public TimeOnly To { get; set; }
 
-        public Guid BrowserId { get; set; }
     }
 }

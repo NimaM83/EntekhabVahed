@@ -1,46 +1,52 @@
-using EV.Web.Models;
+
+using EV.Application.Interfaces.Services;
+using EV.Application.Services.Times.Commands.AddTimes;
+using EV.Common.Utilities;
+using EV.Domain.Entities.Common;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
 
 namespace EV.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly IEntekhabVahedServices _services;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IEntekhabVahedServices services)
         {
-            _logger = logger;
+            _services = services;
         }
 
         public IActionResult Index()
         {
+
             return View();
         }
 
         [HttpGet]
         public IActionResult SetTimes(int timesCount)
         {
-            ViewBag.TimesCount = timesCount;
+
+            ViewBag.timesCount = timesCount;
+            
             return View();
         }
 
         [HttpPost]
-        public IActionResult SetTimes(TimeOnly time)
+        public IActionResult SetTimes(List<ReqAddTimeService> request)
         {
+            var res = _services.TimeServices.AddTime.Execute(request);
 
-            return Json(1);
+            if(res.IsSuccess)
+            {
+                return RedirectToAction();
+            }
+
+			return Json(res);
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
+        
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+
+     
     }
 }

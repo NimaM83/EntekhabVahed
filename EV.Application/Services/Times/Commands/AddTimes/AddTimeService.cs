@@ -21,18 +21,34 @@ namespace EV.Application.Services.Times.Commands.AddTimes
                 {
                     From = request.First().From,
                     To = request.First().To,
-                    BrowserId = request.First().BrwoserId
                 });
 
-                Time temp;
+				if (ExistTimes.First().From >= ExistTimes.First().To)
+				{
+					return new Result()
+					{
+						IsSuccess = false,
+						Message = "ساعت شروع کلاس نمیتواند بیشتر از ساعت پایان ان باشد"
+					};
+				}
+
+				Time temp;
                 for (int i = 1; i < request.Count(); i++)
                 {
                     temp = new Time()
                     {
                         From = request.ElementAt(i).From,
                         To = request.ElementAt(i).To,
-                        BrowserId = request.ElementAt(i).BrwoserId,
                     };
+
+                    if(temp.From >= temp.To)
+                    {
+                        return new Result()
+                        {
+                            IsSuccess = false,
+                            Message = "ساعت شروع کلاس نمیتواند بیشتر از ساعت پایان ان باشد"
+                        };
+                    }
 
                     if (ValidTime.CheckValidTime(temp, ExistTimes))
                     {

@@ -32,6 +32,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EV.Application\EV.Application.csproj" />
+    <ProjectReference Include="..\EV.Common\EV.Common.csproj" />
     <ProjectReference Include="..\EV.Presistance\EV.Presistance.csproj" />
   </ItemGroup>
 

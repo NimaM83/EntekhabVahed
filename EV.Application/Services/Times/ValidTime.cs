@@ -9,7 +9,9 @@ namespace EV.Application.Services.Times
         {
             foreach(var item in ExistTimes)
             {
-                if ((Target.From) >= (item.From) && (Target.To) <= (item.To))
+                
+                if ((Target.From) > (item.From) && (Target.From) < (item.To) ||
+					(Target.To) > (item.From) && (Target.To) < (item.To))
                 {
                     return false;
                 }

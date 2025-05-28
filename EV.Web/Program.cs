@@ -5,7 +5,7 @@ using EV.Presistance.Data;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
-var connectionStr = builder.Configuration.GetConnectionString("DefaultConnection");
+var connectionStr = builder.Configuration.GetConnectionString("DefualtConnection");
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

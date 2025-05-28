@@ -1,7 +1,10 @@
-﻿@{
+﻿@using EV.Application.Services.Times.Commands.AddTimes
+@using EV.Domain.Entities.Common
+@{
 	Layout = null;
-	TimeOnly time = new TimeOnly();
+	int timesCount = ViewBag.timesCount;
 }
+@model List<ReqAddTimeService>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -17,17 +20,28 @@
 	<link rel="stylesheet" href="~/css/flatpickr.min.css" />
 </head>
 <body class="rtl">
+	
 	<div class="contact1">
 		<div class="container-contact1">
 			<div class="contact1-pic js-tilt" data-tilt>
 				<img src="pics/img-01.png" alt="IMG">
 			</div>
-			<form class="contact1-form validate-form" method="post" asp-route-time="@time">
-				<span class="contact1-form-title">فرم ساعات کلاس</span>
-				<div class="wrap-input1 validate-input" data-validate="تعداد ساعات کلاس">
-					<input class="input1" id="timePicker" asp-for="@time" type="time" min="3:00" max="23:59" step="900">
-					<span class="shadow-input1"></span>
-				</div>
+			<form class="contact1-form validate-form" method="post">
+				<span class="contact1-form-title">بازه ساعات خود را وارد کنید</span>
+				@for(int i = 0; i < timesCount; i++)
+				{
+					<label>ساعت @(i+1):</label>
+					<div class="wrap-input1 validate-input" data-validate="تعداد ساعات کلاس">
+						<label>از</label>
+						<input class="input1" id="timePicker" asp-for="@Model[i].From" type="time" min="3:00" max="23:59" step="900">
+						<span class="shadow-input1"></span>
+						<br />
+						<label>تا</label>
+						<input class="input1" id="timePicker" asp-for="@Model[i].To" type="time" min="3:00" max="23:59" step="900">
+						<span class="shadow-input1"></span>
+						<br /><br />
+					</div>
+				}
 
 				<div class="container-contact1-form-btn">
 					<button class="contact1-form-btn" type="submit">
