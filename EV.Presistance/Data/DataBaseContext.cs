@@ -1,11 +1,7 @@
 ﻿using EV.Application.Interfaces.Context;
+using EV.Domain.Entities.Lessson;
 using EV.Domain.Entities.Time;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EV.Presistance.Data
 {
@@ -15,5 +11,7 @@ namespace EV.Presistance.Data
         public DataBaseContext(DbContextOptions<DataBaseContext> options) : base(options) { }
 
         public DbSet<Time> Times { get; set; }
+        public DbSet<Lesson> Lessons {  get; set; }
+        public DbSet<LessonGroup> LessonGroups { get; set; }
     }
 }

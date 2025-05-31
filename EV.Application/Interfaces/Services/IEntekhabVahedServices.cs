@@ -1,4 +1,5 @@
-﻿using EV.Application.Services.Times;
+﻿using EV.Application.Services.Lessons;
+using EV.Application.Services.Times;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,5 +11,6 @@ namespace EV.Application.Interfaces.Services
     public interface IEntekhabVahedServices
     {
         ITimeServices TimeServices { get; }
+        ILessonServices LessonServices { get; }
     }
 }
