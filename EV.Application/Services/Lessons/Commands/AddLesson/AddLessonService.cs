@@ -36,6 +36,7 @@ namespace EV.Application.Services.Lessons.Commands.AddLesson
 							{
 								Code = item.Code,
 								TimeId = item.TimeId,
+                                Day = item.Day,
 								TeacherName = item.TeacherName,
 								LessonId = newLesson.Id
 							});

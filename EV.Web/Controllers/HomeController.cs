@@ -87,6 +87,11 @@ namespace EV.Web.Controllers
 
         }
 
+        public IActionResult Check ()
+        {
+            return Json(_services.DaysServices.GetDays.Execute());
+        }
+
         
 
 

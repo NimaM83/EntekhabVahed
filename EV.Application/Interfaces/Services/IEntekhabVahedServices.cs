@@ -1,4 +1,5 @@
-﻿using EV.Application.Services.Lessons;
+﻿using EV.Application.Services.Days;
+using EV.Application.Services.Lessons;
 using EV.Application.Services.Times;
 using System;
 using System.Collections.Generic;
@@ -12,5 +13,6 @@ namespace EV.Application.Interfaces.Services
     {
         ITimeServices TimeServices { get; }
         ILessonServices LessonServices { get; }
+        IDaysServices DaysServices { get; }
     }
 }

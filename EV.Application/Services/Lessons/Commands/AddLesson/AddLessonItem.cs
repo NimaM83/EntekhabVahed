@@ -1,4 +1,5 @@
-﻿using EV.Domain.Entities.Time;
+﻿using EV.Domain.Entities.Day;
+using EV.Domain.Entities.Time;
 
 namespace EV.Application.Services.Lessons.Commands.AddLesson
 {
@@ -6,6 +7,7 @@ namespace EV.Application.Services.Lessons.Commands.AddLesson
     {
         public string Code { get; set; }
         public Guid TimeId {  get; set; }
+        public EDay Day { get; set; }
         public string TeacherName {  get; set; }
     }
 }
