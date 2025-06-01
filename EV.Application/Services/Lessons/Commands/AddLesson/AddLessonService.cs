@@ -29,13 +29,17 @@ namespace EV.Application.Services.Lessons.Commands.AddLesson
                     List<LessonGroup> Groups = new List<LessonGroup>();
                     foreach(var item in request.Groups)
                     {
-                        Groups.Add(new LessonGroup()
+                        if(!(item.Code == null ||
+                           item.TeacherName == null))
                         {
-                            Code = item.Code,
-                            TimeId = item.TimeId,
-                            TeacherName = item.TeacherName,
-                            LessonId = newLesson.Id
-                        });
+							Groups.Add(new LessonGroup()
+							{
+								Code = item.Code,
+								TimeId = item.TimeId,
+								TeacherName = item.TeacherName,
+								LessonId = newLesson.Id
+							});
+						}
                     }
 
                     _context.LessonGroups.AddRange(Groups);

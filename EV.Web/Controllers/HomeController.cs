@@ -1,5 +1,6 @@
 
 using EV.Application.Interfaces.Services;
+using EV.Application.Services.Lessons.Commands.AddLesson;
 using EV.Application.Services.Times.Commands.AddTimes;
 using EV.Common.Utilities;
 using EV.Domain.Entities.Common;
@@ -18,7 +19,10 @@ namespace EV.Web.Controllers
 
         public IActionResult Index()
         {
-
+            if(_services.TimeServices.GetTimes.Execute().IsSuccess)
+            {
+                return RedirectToAction("SetLesson");
+            }
             return View();
         }
 
@@ -38,10 +42,49 @@ namespace EV.Web.Controllers
 
             if(res.IsSuccess)
             {
-                return RedirectToAction();
+                return RedirectToAction("SetLesson");
             }
 
 			return Json(res);
+        }
+
+        [HttpGet]
+        public IActionResult SetLesson()
+        {
+            var res = _services.TimeServices.GetTimes.Execute();
+
+            if (res.IsSuccess)
+            {
+                ViewBag.Times = res.Data;
+                return View();
+            }
+
+            return Json(res);
+        }
+
+        [HttpPost]
+        public IActionResult SetLesson(ReqAddLessonDto request)
+        {
+            var res = _services.LessonServices.AddLesson.Execute(request);
+            if (res.IsSuccess)
+            {
+                return RedirectToAction();
+            }
+
+            return Json(res);
+        }
+
+        public IActionResult AddLesson(ReqAddLessonDto request)
+        {
+            var res = _services.LessonServices.AddLesson.Execute(request);
+            if (res.IsSuccess)
+            {
+                return RedirectToAction("SetLesson");
+            }
+
+            return Json(res);
+
+
         }
 
         

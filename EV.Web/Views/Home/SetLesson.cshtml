@@ -24,7 +24,7 @@
 			<div class="contact1-pic js-tilt" data-tilt>
 				<img src="~/pics/img-01.png" alt="IMG">
 			</div>
-			<form class="contact1-form validate-form" method="get" asp-action="SetTimes" asp-route-timesCount="@timesCount">
+			<form class="contact1-form validate-form" method="post">
 				<span class="contact1-form-title">فرم افزودن درس</span>
 				<div class="wrap-input1 validate-input">
 					<label> نام درس را وارد کنید:</label>
@@ -37,6 +37,7 @@
 					<input class="input1" asp-for="@Model.unit" type="number">
 					<span class="shadow-input1"></span>
 				</div>
+				<br />
 
 				<div class="wrap-input1 validate-input">
 					<div id="Groups">
@@ -60,11 +61,11 @@
 							<label>نام استاد</label>
 							<input required class="input1" asp-for="@Model.Groups[0].TeacherName" type="text">
 							<span class="shadow-input1"></span>
-							<br />
+							<br /> <br />
 
 						</div>
 
-						@for(int i = 1; i < 10; i++)
+						@for (int i = 1; i < 10; i++)
 						{
 							<label>گروه @(i + 1)</label>
 							<div>
@@ -85,20 +86,19 @@
 								<label>نام استاد</label>
 								<input class="input1" asp-for="@Model.Groups[i].TeacherName" type="text">
 								<span class="shadow-input1"></span>
-								<br />
+								<br /> <br />
 
 							</div>
 						}
 
 
 					</div>
-					<button id="NewGroup" class="btn btn-success">اضافه کردن گروه</button>
 				</div>
 
 				<div class="container-contact1-form-btn">
-					<button class="contact1-form-btn" type="submit">
+					<button class="btn btn-primary" asp-action="AddLesson" type="submit">
 						<span>
-							بعدی
+							درس بعدی 
 							<i class="fa fa-long-arrow-left" aria-hidden="true"></i>
 						</span>
 					</button>
@@ -109,39 +109,5 @@
 	<!-- Scripts -->
 	<script src="~/js/jquery-3.1.1.min.js"></script>
 	<script src="~/js/scripts.js"></script>
-	<script>
-		const button = document.getElementById('NewGroup');
-		const container = document.getElementById('Groups');
-		let index = 0;
-
-		button.addEventListener('click', () => {
-			index++;
-			const newHtml = <label>گروه @(i + 1)</label>
-				< div >
-				<label>کد درس < /label>
-					< input class="input1" asp-for= "@Model.Groups[${index}].Code" type = "text" placeholder = "xxxxxxx_xx" >
-						<span class= "shadow-input1" > </span>
-							< br />
-
-							<label>ساعت کلاس < /label>
-								< select asp -for= "@Model.Groups[i].TimeId" >
-		@foreach (var item in times.Times)
-		{
-										<option value= "@item.Id" > @item.From - @item.To</option>
-		}
-				</select>
-				< br />
-
-				<label>نام استاد < /label>
-					< input class="input1" asp -for= "@Model.Groups[i].TeacherName" type = "text" >
-						<span class= "shadow-input1" > </span>
-						< br />
-
-						</div> ;
-
-			// اضافه کردن قطعه HTML به درون container
-			Groups.insertAdjacentHTML('beforeend', newHtml);
-		});
-	</script>
 </body><!-- This template has been downloaded from Webrubik.com -->
 </html>

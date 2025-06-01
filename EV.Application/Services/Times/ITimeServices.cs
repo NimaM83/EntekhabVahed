@@ -1,5 +1,6 @@
 ﻿using EV.Application.Interfaces.Context;
 using EV.Application.Services.Times.Commands.AddTimes;
+using EV.Application.Services.Times.Queries.GetTimes;
 using Microsoft.EntityFrameworkCore.Metadata;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ namespace EV.Application.Services.Times
     public interface ITimeServices
     {
         IAddTimeService AddTime { get; }
+        IGetTimesService GetTimes { get; }
     }
 
     public class TimeServices : ITimeServices
@@ -28,6 +30,15 @@ namespace EV.Application.Services.Times
             get
             {
                 return _addTime = _addTime ?? new AddTimeService(_context);
+            }
+        }
+
+        private IGetTimesService _getTimes;
+        public IGetTimesService GetTimes
+        {
+            get
+            {
+                return _getTimes = _getTimes ?? new GetTimesServiec(_context);
             }
         }
     }

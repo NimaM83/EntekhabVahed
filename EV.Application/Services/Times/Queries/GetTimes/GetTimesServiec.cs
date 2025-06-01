@@ -19,6 +19,8 @@ namespace EV.Application.Services.Times.Queries.GetTimes
 				if (foundedTimes.Any())
 				{
 					var times = new ResGetTimes();
+					times.Times = new List<GetTimesItem>();
+
                     foreach (var item in foundedTimes)
                     {
 						times.Times.Add(new GetTimesItem()

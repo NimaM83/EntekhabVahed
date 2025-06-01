@@ -9,7 +9,7 @@ namespace EV.Domain.Entities.Lessson
     public class LessonGroup
     {
         public  Guid Id { get; set; }
-        public long Code { get; set; }
+        public string Code { get; set; }
         public Time.Time Time { get; set; }
         public Guid TimeId { get; set; }
         public string TeacherName { get; set; }

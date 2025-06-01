@@ -9,6 +9,6 @@ namespace EV.Application.Services.Lessons.Commands.AddLesson
 {
     public interface IAddLessonService
     {
-        Result Execute(ReqAddLesson request);
+        Result Execute(ReqAddLessonDto request);
     }
 }
