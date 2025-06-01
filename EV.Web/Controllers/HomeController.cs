@@ -51,15 +51,17 @@ namespace EV.Web.Controllers
         [HttpGet]
         public IActionResult SetLesson()
         {
-            var res = _services.TimeServices.GetTimes.Execute();
+            var resT = _services.TimeServices.GetTimes.Execute();
+            var resD = _services.DaysServices.GetDays.Execute();
 
-            if (res.IsSuccess)
+            if (resT.IsSuccess && resD.IsSuccess)
             {
-                ViewBag.Times = res.Data;
+                ViewBag.Times = resT.Data;
+                ViewBag.Days = resD.Data;
                 return View();
             }
 
-            return Json(res);
+            return Json(resT);
         }
 
         [HttpPost]
@@ -89,7 +91,7 @@ namespace EV.Web.Controllers
 
         public IActionResult Check ()
         {
-            return Json(_services.DaysServices.GetDays.Execute());
+            return Json(_services.LessonServices.GetSortedLesson.Execute());
         }
 
         

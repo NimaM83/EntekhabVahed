@@ -1,8 +1,10 @@
-﻿@using EV.Application.Services.Lessons.Commands.AddLesson
+﻿@using EV.Application.Services.Days.Queries.GetDays
+@using EV.Application.Services.Lessons.Commands.AddLesson
 @using EV.Application.Services.Times.Queries.GetTimes
 @{
 	Layout = null;
 	ResGetTimes times = ViewBag.Times;
+	ResGetDaysDto days = ViewBag.Days;
 }
 @model ReqAddLessonDto
 
@@ -58,6 +60,15 @@
 							</select>
 							<br />
 
+							<label>روز کلاس</label>
+							<select required asp-for="@Model.Groups[0].Day">
+								@foreach (var item in days.Days)
+								{
+									<option value="@item.Value">@item.Day</option>
+								}
+							</select>
+							<br />
+
 							<label>نام استاد</label>
 							<input required class="input1" asp-for="@Model.Groups[0].TeacherName" type="text">
 							<span class="shadow-input1"></span>
@@ -79,6 +90,15 @@
 									@foreach (var item in times.Times)
 									{
 										<option value="@item.Id">@item.From - @item.To</option>
+									}
+								</select>
+								<br />
+
+								<label>روز کلاس</label>
+								<select asp-for="@Model.Groups[i].Day">
+									@foreach (var item in days.Days)
+									{
+										<option value="@item.Value">@item.Day</option>
 									}
 								</select>
 								<br />
