@@ -91,7 +91,7 @@ namespace EV.Web.Controllers
 
         public IActionResult Check ()
         {
-            return Json(_services.LessonServices.GetQueuedLessons.Execute());
+            return Json(_services.CalculatorServices.CalculateEV.Execute());
         }
 
         

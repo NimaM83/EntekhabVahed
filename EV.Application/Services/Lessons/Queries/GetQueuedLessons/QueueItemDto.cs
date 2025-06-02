@@ -9,5 +9,6 @@ namespace EV.Application.Services.Lessons.Queries.GetQueuedLessons
 		public Guid GroupId { get; set; }
 		public Time Time { get; set; }
 		public EDay Day { get; set; }
+		public bool IsLastGroup { get; set; }
 	}
 }

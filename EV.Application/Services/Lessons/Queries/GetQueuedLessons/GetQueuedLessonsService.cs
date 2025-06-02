@@ -33,10 +33,12 @@ namespace EV.Application.Services.Lessons.Queries.GetQueuedLessons
 								GroupId = inerItem.LessonGroupId,
 								Time = inerItem.Time,
 								Day = inerItem.Day,
+								IsLastGroup = false,
 							});
 
 						}
 
+						temp.Last().IsLastGroup = true;
 						lessons.Add(temp);
 					}
 

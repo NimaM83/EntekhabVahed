@@ -1,4 +1,6 @@
-﻿using EV.Application.Services.Days;
+﻿using EV.Application.Services.Calculator;
+using EV.Application.Services.Calculator.Queries;
+using EV.Application.Services.Days;
 using EV.Application.Services.Lessons;
 using EV.Application.Services.Times;
 using System;
@@ -14,5 +16,6 @@ namespace EV.Application.Interfaces.Services
         ITimeServices TimeServices { get; }
         ILessonServices LessonServices { get; }
         IDaysServices DaysServices { get; }
+        ICalculatorServices CalculatorServices { get; }
     }
 }
