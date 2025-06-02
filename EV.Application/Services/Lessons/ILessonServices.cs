@@ -1,5 +1,6 @@
 ﻿using EV.Application.Interfaces.Context;
 using EV.Application.Services.Lessons.Commands.AddLesson;
+using EV.Application.Services.Lessons.Queries.GetQueuedLessons;
 using EV.Application.Services.Lessons.Queries.GetSortedLesson;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ namespace EV.Application.Services.Lessons
     {
         IAddLessonService AddLesson { get; }
         IGetSortedLessonService GetSortedLesson { get; }
+        IGetQueuedLessonsService GetQueuedLessons { get; }
     }
 
     public class LessonServices : ILessonServices
@@ -39,6 +41,15 @@ namespace EV.Application.Services.Lessons
             get
             {
                 return _getSortedLesson = _getSortedLesson ?? new GetSortedLessonService(_context);
+            }
+        }
+
+        private IGetQueuedLessonsService _getQueuedLessons;
+        public IGetQueuedLessonsService GetQueuedLessons
+        {
+            get
+            {
+                return _getQueuedLessons = _getQueuedLessons ?? new GetQueuedLessonsService(GetSortedLesson);
             }
         }
 
