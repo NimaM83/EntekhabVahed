@@ -1,12 +1,9 @@
 ﻿using EV.Application.Services.Lessons;
+using EV.Application.Services.Times;
 using EV.Domain.Entities.Common;
 using EV.Domain.Entities.Day;
 using EV.Domain.Entities.Time;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace EV.Application.Services.Calculator.Queries
 {
@@ -72,6 +69,14 @@ namespace EV.Application.Services.Calculator.Queries
 								
 							}
 						}
+
+
+						
+
+						if (IsValidEV(tempStack))
+						{
+							acceptedArrenge.Add(tempStack);
+						}
 					}
 				}
 
@@ -89,6 +94,39 @@ namespace EV.Application.Services.Calculator.Queries
 					Message = "خطای نامشخصی رخ داد"
 				};
 			}
+		}
+
+		private bool IsValidEV(Stack<CalculateItemDto> stack)
+		{
+			CalculateItemDto[] lessonItems = new CalculateItemDto[stack.Count];
+			for(int i = stack.Count-1; i >= 0; i--)
+			{
+				lessonItems[i] = stack.Pop();
+			} // this loop makes the stack empty
+
+			foreach(var item in lessonItems)
+			{
+				stack.Push(item);
+			}// this loop refill th stack
+
+
+			List<Time> existTimes = new List<Time>();
+			existTimes.Add(lessonItems[0].Time);
+
+			for(int i = 1; i < lessonItems.Length; i++)
+			{
+				if (ValidTime.CheckValidTime(lessonItems[i].Time, existTimes))
+				{
+					existTimes.Add(lessonItems[i].Time);
+				}
+
+				else
+				{
+					return false;
+				}
+			}
+
+			return true;
 		}
 	}
 
