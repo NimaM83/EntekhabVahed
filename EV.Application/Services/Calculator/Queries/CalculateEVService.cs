@@ -1,0 +1,154 @@
+﻿using EV.Application.Services.Lessons;
+using EV.Application.Services.Times;
+using EV.Domain.Entities.Common;
+
+
+namespace EV.Application.Services.Calculator.Queries
+{
+	public class CalculateEVService : ICalculateEVService
+	{
+		private readonly ILessonServices _lessonServices;
+		public CalculateEVService(ILessonServices lessonServices)
+		{
+			_lessonServices = lessonServices;
+		}
+
+		public Result<ResCalculateEVDto> Execute()
+		{
+			try
+			{
+				var queuedLessons = _lessonServices.GetQueuedLessons.Execute();
+
+				if(queuedLessons.IsSuccess)
+				{
+					List<Stack<CalculateItemDto>> acceptedArrenge = new List<Stack<CalculateItemDto>>();
+					Stack<CalculateItemDto> tempStack = new Stack<CalculateItemDto>();
+
+					while (true)
+					{
+						int i = 0;
+						CalculateItemDto tempStackItem;
+						if (tempStack.Any())
+						{
+							while(tempStack.Any())
+							{
+								tempStackItem = tempStack.Pop();
+								if(!tempStackItem.IsLastGroup)
+								{
+									i = tempStackItem.LessonNum;
+									break;
+								}
+								
+							}
+
+							if (!tempStack.Any())
+							{
+								break;
+							}
+						}
+
+
+						for (; i < queuedLessons.Data.Lessons.Count(); i++)
+						{
+							if(!tempStack.Any())
+							{
+
+								var tempQueueItem = queuedLessons.Data.Lessons[0].Dequeue();
+								tempStack.Push(new CalculateItemDto()
+								{
+									LessonId = tempQueueItem.LessonId,
+									GruopId = tempQueueItem.GroupId,
+									Time = tempQueueItem.Time,
+									Day = tempQueueItem.Day,
+									LessonNum = 0,
+									IsLastGroup = tempQueueItem.IsLastGroup,
+								});
+
+								queuedLessons.Data.Lessons[0].Enqueue(tempQueueItem);
+							}
+							else
+							{
+
+									var tempQueuedItem = queuedLessons.Data.Lessons[i].Dequeue();
+									tempStack.Push(new CalculateItemDto()
+									{
+										LessonNum = i,
+										LessonId = tempQueuedItem.LessonId,
+										GruopId = tempQueuedItem.GroupId,
+										Time = tempQueuedItem.Time,
+										Day = tempQueuedItem.Day,
+										IsLastGroup = tempQueuedItem.IsLastGroup,
+									});
+
+									queuedLessons.Data.Lessons[i].Enqueue(tempQueuedItem);
+								
+							}
+						}
+
+						if (IsValidEV(tempStack))
+						{
+							acceptedArrenge.Add(tempStack);
+						}
+					}
+
+					return new Result<ResCalculateEVDto>()
+					{
+						IsSuccess = true,
+						Message = "انتخاب واحد با موفقیت انجام شد",
+						Data = new ResCalculateEVDto()
+						{
+							acceptedArrenge = acceptedArrenge,
+						}
+					};
+				}
+
+				return new Result<ResCalculateEVDto>()
+				{
+					IsSuccess = false,
+					Message = queuedLessons.Message,
+				};
+			}
+			catch (Exception ex)
+			{
+				return new Result<ResCalculateEVDto>()
+				{
+					IsSuccess = false,
+					Message = "خطای نامشخصی رخ داد"
+				};
+			}
+		}
+
+		private bool IsValidEV(Stack<CalculateItemDto> stack)
+		{
+			CalculateItemDto[] lessonItems = new CalculateItemDto[stack.Count];
+			for(int i = stack.Count-1; i >= 0; i--)
+			{
+				lessonItems[i] = stack.Pop();
+			} // this loop makes the stack empty
+
+			foreach(var item in lessonItems)
+			{
+				stack.Push(item);
+			}// this loop refill th stack
+
+
+			List<CalculateItemDto> existTimes = new List<CalculateItemDto>();
+			existTimes.Add(lessonItems[0]);
+
+			for(int i = 1; i < lessonItems.Length; i++)
+			{
+				if (ValidTime.CheckValidTimeWithDays(lessonItems[i], existTimes))
+				{
+					existTimes.Add(lessonItems[i]);
+				}
+
+				else
+				{
+					return false;
+				}
+			}
+
+			return true;
+		}
+	}
+}

@@ -1,4 +1,5 @@
-﻿using EV.Domain.Entities.Time;
+﻿using EV.Application.Services.Calculator.Queries;
+using EV.Domain.Entities.Time;
 
 
 namespace EV.Application.Services.Times
@@ -19,5 +20,22 @@ namespace EV.Application.Services.Times
 
             return true;
         }
-    }
+
+        public static bool CheckValidTimeWithDays (CalculateItemDto target, List<CalculateItemDto> existTimes)    
+        { 
+            foreach(var item in existTimes)
+            {
+                if(target.Day.Equals(item.Day))
+                {
+					if ((target.Time.From.Equals(item.Time.From)) && (target.Time.To.Equals(item.Time.To)))
+					{
+						return false;
+					}
+				}
+            }
+
+            return true;
+        }
+
+	}
 }
