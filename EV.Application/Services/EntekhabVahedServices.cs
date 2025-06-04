@@ -1,6 +1,7 @@
 ﻿using EV.Application.Interfaces.Context;
 using EV.Application.Interfaces.Services;
 using EV.Application.Services.Calculator;
+using EV.Application.Services.Chart;
 using EV.Application.Services.Days;
 using EV.Application.Services.Lessons;
 using EV.Application.Services.Times;
@@ -49,6 +50,15 @@ namespace EV.Application.Services
             get
             {
                 return _calculatorServices = _calculatorServices ?? new CalculatorServices(LessonServices);
+            }
+        }
+
+        private IChartServices  _chartServices;
+        public IChartServices   ChartServices
+        {
+            get
+            {
+                return _chartServices = _chartServices ?? new ChartServices(_context);
             }
         }
     }

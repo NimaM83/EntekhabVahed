@@ -1,4 +1,5 @@
-﻿using EV.Domain.Entities.Lessson;
+﻿using EV.Domain.Entities.Chart;
+using EV.Domain.Entities.Lessson;
 using EV.Domain.Entities.Time;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -14,6 +15,7 @@ namespace EV.Application.Interfaces.Context
         DbSet<Time> Times { get; set; }
         DbSet<Lesson> Lessons { get; set; }
         DbSet<LessonGroup> LessonGroups { get; set; }
+        DbSet<Chart> Charts {  get; set; }
     
         int SaveChanges(bool acceptAllChangesOnSuccess);
         int SaveChanges();
