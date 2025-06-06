@@ -1,5 +1,6 @@
 
 using EV.Application.Interfaces.Services;
+using EV.Application.Services.Chart.Commands.SetCharst;
 using EV.Application.Services.Lessons.Commands.AddLesson;
 using EV.Application.Services.Times.Commands.AddTimes;
 using EV.Common.Utilities;
@@ -91,7 +92,38 @@ namespace EV.Web.Controllers
 
         public IActionResult Check ()
         {
-            return Json(_services.CalculatorServices.CalculateEV.Execute());
+            return Json(null);
+        }
+
+        public IActionResult CalculateEV ()
+        {
+            var result = _services.CalculatorServices.CalculateEV.Execute();
+
+            ReqSetChartDto request = new ReqSetChartDto();
+            request.Charts = new List<ChartsItem>();
+
+            foreach (var item in result.Data.acceptedArrenge)
+            {
+                request.Charts.Add(new ChartsItem()
+                {
+                    LessonGroupsId = item.Select(i => i.GruopId).ToList()
+                });
+            }
+
+            _services.ChartServices.SetCharts.Execute(request);
+
+            return RedirectToAction("Charts");
+        }
+
+        public IActionResult Charts()
+        {
+            return View(_services.ChartServices.GetCharts.Execute());
+        }
+
+        public IActionResult ChartDetails (Guid ChartId)
+        {
+            _services.ChartServices.GetChartDatils.Execute(ChartId);
+            return null;
         }
 
         

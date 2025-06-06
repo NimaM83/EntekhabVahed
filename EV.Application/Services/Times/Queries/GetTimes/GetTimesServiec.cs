@@ -1,5 +1,6 @@
 ﻿using EV.Application.Interfaces.Context;
 using EV.Domain.Entities.Common;
+using EV.Domain.Entities.Time;
 
 namespace EV.Application.Services.Times.Queries.GetTimes
 {
@@ -18,6 +19,7 @@ namespace EV.Application.Services.Times.Queries.GetTimes
 				var foundedTimes = _context.Times.ToList();
 				if (foundedTimes.Any())
 				{
+					foundedTimes = SortTimes(foundedTimes);
 					var times = new ResGetTimes();
 					times.Times = new List<GetTimesItem>();
 
@@ -53,6 +55,27 @@ namespace EV.Application.Services.Times.Queries.GetTimes
 					Message = "خطای نامشخصی رخ داد"
 				};
 			}
+		}
+
+		private List<Time> SortTimes (List<Time> times)
+		{
+			Time min = new Time();
+			Time temp = new Time();
+			for(int i = 0; i < times.Count; i++)
+			{
+				min = times[i];
+				for(int j = 0; j < times.Count; j++)
+				{
+					if (times[i].From < min.From)
+					{
+						temp = min;
+						min = times[i];
+						times[i] = temp;
+					}
+				}
+			}
+
+			return times;
 		}
 	}
 }

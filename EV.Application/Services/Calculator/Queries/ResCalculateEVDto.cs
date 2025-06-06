@@ -2,6 +2,6 @@
 {
 	public class ResCalculateEVDto
 	{
-		public List<Stack<CalculateItemDto>> acceptedArrenge {  get; set; }
+		public List<List<CalculateItemDto>> acceptedArrenge {  get; set; }
 	}
 }

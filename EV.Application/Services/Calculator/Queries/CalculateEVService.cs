@@ -21,7 +21,7 @@ namespace EV.Application.Services.Calculator.Queries
 
 				if(queuedLessons.IsSuccess)
 				{
-					List<Stack<CalculateItemDto>> acceptedArrenge = new List<Stack<CalculateItemDto>>();
+					List<List<CalculateItemDto>> acceptedArrenge = new List<List<CalculateItemDto>>();
 					Stack<CalculateItemDto> tempStack = new Stack<CalculateItemDto>();
 
 					while (true)
@@ -87,7 +87,7 @@ namespace EV.Application.Services.Calculator.Queries
 
 						if (IsValidEV(tempStack))
 						{
-							acceptedArrenge.Add(tempStack);
+							acceptedArrenge.Add(tempStack.ToList());
 						}
 					}
 
@@ -97,7 +97,7 @@ namespace EV.Application.Services.Calculator.Queries
 						Message = "انتخاب واحد با موفقیت انجام شد",
 						Data = new ResCalculateEVDto()
 						{
-							acceptedArrenge = acceptedArrenge,
+							acceptedArrenge = acceptedArrenge.ToList(),
 						}
 					};
 				}

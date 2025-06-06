@@ -16,6 +16,6 @@ namespace EV.Domain.Entities.Lessson
         public Guid TimeId { get; set; }
         public string TeacherName { get; set; }
         public Guid LessonId { get; set; }
-
+        public virtual Lesson Lesson { get; set; }
     }
 }

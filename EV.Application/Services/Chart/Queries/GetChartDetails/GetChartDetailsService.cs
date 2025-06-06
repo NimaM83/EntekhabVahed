@@ -1,0 +1,162 @@
+﻿using EV.Application.Interfaces.Context;
+using EV.Application.Services.Times;
+using EV.Domain.Entities.Common;
+using EV.Domain.Entities.Day;
+using EV.Domain.Entities.Lessson;
+using EV.Domain.Entities.Time;
+using Microsoft.EntityFrameworkCore;
+
+namespace EV.Application.Services.Chart.Queries.GetChartDetails
+{
+	public class GetChartDetailsService : IGetChartDatilsService
+	{
+		private readonly IDataBaseContext _context;
+		public GetChartDetailsService (IDataBaseContext context)
+		{
+			_context = context;
+		}
+
+		public Result<ResChartDetailsDto> Execute(Guid chartId)
+		{
+			try
+			{
+				var foundedChart = _context.Charts.Where(c => c.Id.Equals(chartId)).FirstOrDefault();
+
+                if (foundedChart != null)
+                {
+					var foundedTimes = _context.Times.ToList();
+					foundedTimes = SortTimes(foundedTimes);
+					var foundedGroups = new List<LessonGroup>();
+
+					foreach(var item in foundedChart.LessonGroupsId)
+					{
+						foundedGroups.Add(_context.LessonGroups.Where(g => g.Id.Equals(item)).Include(g => g.Lesson).FirstOrDefault());
+					}
+
+					foundedChart.LessonGruops = foundedGroups;
+					ResChartDetailsDto result = new ResChartDetailsDto();
+
+					for(int i = 0; i < 6; i++)
+					{
+						var item = new ChartDetailsItem();
+						item.Lessons = new string[foundedTimes.Count];
+
+						var lessonsOnDay = foundedChart.LessonGruops.Where(l => l.Day.Equals(GetDay(i))).ToList();
+						item.Day = DayToPersian(GetDay(i));
+
+							for (int j = 0; j < foundedTimes.Count; j++)
+							{
+								item.Lessons[j] = "-";
+								if (lessonsOnDay.Any())
+								{
+									
+									for (int k = 0; k < lessonsOnDay.Count; k++)
+									{
+										if (lessonsOnDay[k].Time.From.Equals(foundedTimes[j].From) &&
+											lessonsOnDay[k].Time.To.Equals(foundedTimes[j].To))
+										{
+											item.Lessons[j] = $"{lessonsOnDay[k].Lesson.Name} - {lessonsOnDay[k].Lesson.Unit} واحد\n" +
+															  $"{lessonsOnDay[k].TeacherName}\n" +
+															  $"{lessonsOnDay[k].Code}";
+											
+											break;
+										}
+									}
+
+								}
+							}
+
+						result.LessonsOnDay[i] = item;
+
+					}
+                }
+
+				return new Result<ResChartDetailsDto>()
+				{
+					IsSuccess = false,
+					Message = "جدول یافت نشد"
+				};
+
+            } catch(Exception ex)
+			{
+				return new Result<ResChartDetailsDto> ()
+				{
+					IsSuccess =false,
+					Message = "خطای نا مشخصی رخ داد"
+				};
+			}
+		}
+		private List<Time> SortTimes(List<Time> times)
+		{
+			Time min = new Time();
+			Time temp = new Time();
+			for (int i = 0; i < times.Count; i++)
+			{
+				min = times[i];
+				for (int j = 0; j < times.Count; j++)
+				{
+					if (times[i].From < min.From)
+					{
+						temp = min;
+						min = times[i];
+						times[i] = temp;
+					}
+				}
+			}
+
+			return times;
+		}
+		private string DayToPersian (EDay day)
+		{
+			switch(day)
+			{
+				case EDay.Saturday:
+					return "شنبه";
+
+				case EDay.Sunday:
+					return "یک شنبه";
+
+				case EDay.Monday:
+					return "دو شنبه";
+
+				case EDay.Tuesday:
+					return "سه شنبه";
+
+				case EDay.Wednesday:
+					return "چهار شنبه";
+
+				case EDay.Thursday:
+					return "پنج شنبه";
+			}
+
+			return null;
+		}
+		private EDay GetDay (int number)
+		{
+			switch(number)
+			{
+				case 0:
+					return EDay.Saturday;
+
+				case 1:
+					return EDay.Sunday;
+
+				case 2:
+					return EDay.Monday;
+
+				case 3:
+					return EDay.Tuesday;
+
+				case 4:
+					return EDay.Wednesday;
+
+				case 5:
+					return EDay.Thursday;
+			}
+
+			throw new Exception();
+			return EDay.Thursday;
+		}
+
+	}
+}
