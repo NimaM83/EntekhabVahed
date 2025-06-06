@@ -69,6 +69,13 @@ namespace EV.Application.Services.Chart.Queries.GetChartDetails
 						result.LessonsOnDay[i] = item;
 
 					}
+
+					return new Result<ResChartDetailsDto>()
+					{
+						IsSuccess = true,
+						Message = "جدول یافت شد",
+						Data = result
+					};
                 }
 
 				return new Result<ResChartDetailsDto>()

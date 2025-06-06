@@ -122,8 +122,8 @@ namespace EV.Web.Controllers
 
         public IActionResult ChartDetails (Guid ChartId)
         {
-            _services.ChartServices.GetChartDatils.Execute(ChartId);
-            return null;
+            ViewBag.Times = _services.TimeServices.GetTimes.Execute().Data;
+            return View(_services.ChartServices.GetChartDatils.Execute(ChartId));
         }
 
         
