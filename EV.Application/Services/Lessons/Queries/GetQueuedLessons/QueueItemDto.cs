@@ -7,8 +7,7 @@ namespace EV.Application.Services.Lessons.Queries.GetQueuedLessons
 	{
 		public Guid LessonId { get; set; }
 		public Guid GroupId { get; set; }
-		public Time Time { get; set; }
-		public EDay Day { get; set; }
+		public List<Guid> ClassesId { get; set; }
 		public bool IsLastGroup { get; set; }
 	}
 }

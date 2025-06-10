@@ -31,8 +31,7 @@ namespace EV.Application.Services.Lessons.Queries.GetQueuedLessons
 							{
 								LessonId = item.LessonId,
 								GroupId = inerItem.LessonGroupId,
-								Time = inerItem.Time,
-								Day = inerItem.Day,
+								ClassesId = inerItem.ClassesId,
 								IsLastGroup = false,
 							});
 
