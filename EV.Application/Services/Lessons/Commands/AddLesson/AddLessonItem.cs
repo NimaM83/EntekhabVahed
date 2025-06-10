@@ -6,8 +6,7 @@ namespace EV.Application.Services.Lessons.Commands.AddLesson
     public class AddLessonItem
     {
         public string Code { get; set; }
-        public Guid TimeId {  get; set; }
-        public EDay Day { get; set; }
+        public List<ClassesItem> Classes { get; set; }
         public string TeacherName {  get; set; }
     }
 }

@@ -4,7 +4,7 @@ using EV.Domain.Entities.Lessson;
 
 namespace EV.Application.Services.Lessons.Commands.AddLesson
 {
-    public class  AddLessonService : IAddLessonService
+    public class AddLessonService : IAddLessonService
     {
         private readonly IDataBaseContext _context;
         public AddLessonService (IDataBaseContext context)
@@ -24,26 +24,28 @@ namespace EV.Application.Services.Lessons.Commands.AddLesson
                         Unit = request.unit
                     };
                     _context.Lessons.Add(newLesson);
-                    _context.SaveChanges();
 
-                    List<LessonGroup> Groups = new List<LessonGroup>();
                     foreach(var item in request.Groups)
                     {
-                        if(!(item.Code == null ||
-                           item.TeacherName == null))
+                        LessonGroup newLessonGroup = new LessonGroup()
                         {
-							Groups.Add(new LessonGroup()
-							{
-								Code = item.Code,
-								TimeId = item.TimeId,
-                                Day = item.Day,
-								TeacherName = item.TeacherName,
-								LessonId = newLesson.Id
-							});
-						}
+                            Code = item.Code,
+                            TeacherName = item.TeacherName,
+                        };
+                        _context.LessonGroups.Add(newLessonGroup);
+
+
+                        foreach(var inerItem in item.Classes)
+                        {
+                            _context.Classes.Add(new LessonGruopClass()
+                            {
+                                TimeId = inerItem.TimeId,
+                                Day = inerItem.Day,
+                                GruopId = newLessonGroup.Id,
+                            });
+                        }
                     }
 
-                    _context.LessonGroups.AddRange(Groups);
                     _context.SaveChanges();
 
                     return new Result()

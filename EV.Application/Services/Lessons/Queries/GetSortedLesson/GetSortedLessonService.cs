@@ -18,7 +18,8 @@ namespace EV.Application.Services.Lessons.Queries.GetSortedLesson
 			try
 			{
 				var foundedLesson = _context.Lessons.Include(L => L.LessonGroups)
-									.ThenInclude(LG => LG.Time)
+									.ThenInclude(G => G.lessonGruopClasses)
+									.ThenInclude(C => C.Time)
 									.ToList();
 
 				Lesson min;
@@ -51,8 +52,7 @@ namespace EV.Application.Services.Lessons.Queries.GetSortedLesson
 						lessonGroups.Add(new LessonGroupItem()
 						{
 							LessonGroupId = inerItem.Id,
-							Time = inerItem.Time,
-							Day = inerItem.Day,
+							ClassesId = inerItem.lessonGruopClasses.Select(C => C.Id).ToList(),
 						});
 					}
 

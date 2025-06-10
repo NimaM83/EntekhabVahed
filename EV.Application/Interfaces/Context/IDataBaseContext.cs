@@ -15,6 +15,7 @@ namespace EV.Application.Interfaces.Context
         DbSet<Time> Times { get; set; }
         DbSet<Lesson> Lessons { get; set; }
         DbSet<LessonGroup> LessonGroups { get; set; }
+        DbSet<LessonGruopClass> Classes { get; set; }
         DbSet<Chart> Charts {  get; set; }
     
         int SaveChanges(bool acceptAllChangesOnSuccess);

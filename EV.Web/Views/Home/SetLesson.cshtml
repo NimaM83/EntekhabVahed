@@ -42,41 +42,11 @@
 				<br />
 
 				<div class="wrap-input1 validate-input">
-					<div id="Groups">
+					<div id="group-container">
 
-						<label>گروه 1</label>
-						<div>
-							<label>کد درس</label>
-							<input required class="input1" asp-for="@Model.Groups[0].Code" type="text" placeholder="xxxxxxx_xx">
-							<span class="shadow-input1"></span>
-							<br />
+						
 
-							<label>ساعت کلاس</label>
-							<select required asp-for="@Model.Groups[0].TimeId">
-								@foreach (var item in times.Times)
-								{
-									<option value="@item.Id">@item.From - @item.To</option>
-								}
-							</select>
-							<br />
-
-							<label>روز کلاس</label>
-							<select required asp-for="@Model.Groups[0].Day">
-								@foreach (var item in days.Days)
-								{
-									<option value="@item.Value">@item.Day</option>
-								}
-							</select>
-							<br />
-
-							<label>نام استاد</label>
-							<input required class="input1" asp-for="@Model.Groups[0].TeacherName" type="text">
-							<span class="shadow-input1"></span>
-							<br /> <br />
-
-						</div>
-
-						@for (int i = 1; i < 10; i++)
+					@* 	@for (int i = 1; i < 10; i++)
 						{
 							<label>گروه @(i + 1)</label>
 							<div>
@@ -109,7 +79,7 @@
 								<br /> <br />
 
 							</div>
-						}
+						} *@
 
 
 					</div>
@@ -129,5 +99,6 @@
 	<!-- Scripts -->
 	<script src="~/js/jquery-3.1.1.min.js"></script>
 	<script src="~/js/scripts.js"></script>
+	
 </body><!-- This template has been downloaded from Webrubik.com -->
 </html>

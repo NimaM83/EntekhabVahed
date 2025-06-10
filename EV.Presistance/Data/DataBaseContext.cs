@@ -15,5 +15,6 @@ namespace EV.Presistance.Data
         public DbSet<Lesson> Lessons {  get; set; }
         public DbSet<LessonGroup> LessonGroups { get; set; }
         public DbSet<Chart> Charts { get; set; }
+        public DbSet<LessonGruopClass> Classes { get; set; }
 	}
 }
