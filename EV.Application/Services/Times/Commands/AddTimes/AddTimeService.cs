@@ -12,15 +12,15 @@ namespace EV.Application.Services.Times.Commands.AddTimes
             _context = context;
         }
 
-        public Result Execute(List<ReqAddTimeService> request)
+        public Result Execute(ReqAddTimeService request)
         {
             try
             {
                 List<Time> ExistTimes = new List<Time>();
                 ExistTimes.Add(new Time()
                 {
-                    From = request.First().From,
-                    To = request.First().To,
+                    From = request.Times.First().From,
+                    To = request.Times.First().To,
                 });
 
 				if (ExistTimes.First().From >= ExistTimes.First().To)
@@ -33,12 +33,12 @@ namespace EV.Application.Services.Times.Commands.AddTimes
 				}
 
 				Time temp;
-                for (int i = 1; i < request.Count(); i++)
+                for (int i = 1; i < request.Times.Count(); i++)
                 {
                     temp = new Time()
                     {
-                        From = request.ElementAt(i).From,
-                        To = request.ElementAt(i).To,
+                        From = request.Times.ElementAt(i).From,
+                        To = request.Times.ElementAt(i).To,
                     };
 
                     if(temp.From >= temp.To)

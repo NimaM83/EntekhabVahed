@@ -2,7 +2,6 @@
 {
     public class ReqAddTimeService
     {
-        public TimeOnly From { get; set; }
-        public TimeOnly To { get; set; }
+        public List<TimeDto> Times { get; set; }
     }
 }

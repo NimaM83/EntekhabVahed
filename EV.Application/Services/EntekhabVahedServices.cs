@@ -49,7 +49,7 @@ namespace EV.Application.Services
         {
             get
             {
-                return _calculatorServices = _calculatorServices ?? new CalculatorServices(LessonServices);
+                return _calculatorServices = _calculatorServices ?? new CalculatorServices(LessonServices, _context);
             }
         }
 

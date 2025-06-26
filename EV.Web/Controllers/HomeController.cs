@@ -37,7 +37,7 @@ namespace EV.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult SetTimes(List<ReqAddTimeService> request)
+        public IActionResult SetTimes(ReqAddTimeService request)
         {
             var res = _services.TimeServices.AddTime.Execute(request);
 
