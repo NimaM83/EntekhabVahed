@@ -1,4 +1,5 @@
-﻿using EV.Application.Services.Lessons;
+﻿using EV.Application.Interfaces.Context;
+using EV.Application.Services.Lessons;
 using EV.Application.Services.Times;
 using EV.Domain.Entities.Common;
 
@@ -8,9 +9,11 @@ namespace EV.Application.Services.Calculator.Queries
 	public class CalculateEVService : ICalculateEVService
 	{
 		private readonly ILessonServices _lessonServices;
-		public CalculateEVService(ILessonServices lessonServices)
+		private readonly IDataBaseContext _dbContext;
+		public CalculateEVService(ILessonServices lessonServices, IDataBaseContext dbContext)
 		{
 			_lessonServices = lessonServices;
+			_dbContext = dbContext;
 		}
 
 		public Result<ResCalculateEVDto> Execute()
@@ -58,8 +61,7 @@ namespace EV.Application.Services.Calculator.Queries
 								{
 									LessonId = tempQueueItem.LessonId,
 									GruopId = tempQueueItem.GroupId,
-									Time = tempQueueItem.Time,
-									Day = tempQueueItem.Day,
+									classes = _dbContext.Classes.Where(c => c.GruopId == tempQueueItem.GroupId).ToList(),
 									LessonNum = 0,
 									IsLastGroup = tempQueueItem.IsLastGroup,
 								});
@@ -75,8 +77,7 @@ namespace EV.Application.Services.Calculator.Queries
 										LessonNum = i,
 										LessonId = tempQueuedItem.LessonId,
 										GruopId = tempQueuedItem.GroupId,
-										Time = tempQueuedItem.Time,
-										Day = tempQueuedItem.Day,
+										classes = _dbContext.Classes.Where(c => c.GruopId == tempQueuedItem.GroupId).ToList(),
 										IsLastGroup = tempQueuedItem.IsLastGroup,
 									});
 
@@ -137,7 +138,7 @@ namespace EV.Application.Services.Calculator.Queries
 
 			for(int i = 1; i < lessonItems.Length; i++)
 			{
-				if (ValidTime.CheckValidTimeWithDays(lessonItems[i], existTimes))
+				if (ValidTime.CheckValidClasses(lessonItems[i], existTimes))
 				{
 					existTimes.Add(lessonItems[i]);
 				}

@@ -10,7 +10,7 @@ namespace EV.Domain.Entities.Lessson
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public  int Unit { get; set; }
+        public int Unit { get; set; }
 
         public virtual ICollection<LessonGroup> LessonGroups { get; set; }
     }

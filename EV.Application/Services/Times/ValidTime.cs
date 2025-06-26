@@ -21,17 +21,24 @@ namespace EV.Application.Services.Times
             return true;
         }
 
-        public static bool CheckValidTimeWithDays (CalculateItemDto target, List<CalculateItemDto> existTimes)    
+        public static bool CheckValidClasses (CalculateItemDto target, List<CalculateItemDto> existTimes)    
         { 
             foreach(var item in existTimes)
             {
-                if(target.Day.Equals(item.Day))
+                foreach(var innerItem in item.classes)
                 {
-					if ((target.Time.From.Equals(item.Time.From)) && (target.Time.To.Equals(item.Time.To)))
-					{
-						return false;
-					}
-				}
+                    foreach(var targetItem in target.classes)
+                    {
+                        if(targetItem.Day.Equals(innerItem.Day))
+                        {
+                            if(targetItem.Time.From.Equals(innerItem.Time.From) &&
+                                targetItem.Time.To.Equals(innerItem.Time.To))
+                            {
+                                return false;
+                            }
+                        }
+                    }
+                }
             }
 
             return true;

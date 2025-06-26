@@ -30,7 +30,9 @@ namespace EV.Application.Services.Chart.Queries.GetChartDetails
 
 					foreach(var item in foundedChart.LessonGroupsId)
 					{
-						foundedGroups.Add(_context.LessonGroups.Where(g => g.Id.Equals(item)).Include(g => g.Lesson).FirstOrDefault());
+						foundedGroups.Add(_context.LessonGroups.Where(g => g.Id.Equals(item))
+										  .Include(g => g.lessonGruopClasses).Include(g => g.Lesson)
+										  .FirstOrDefault());
 					}
 
 					foundedChart.LessonGruops = foundedGroups;
@@ -41,7 +43,7 @@ namespace EV.Application.Services.Chart.Queries.GetChartDetails
 						var item = new ChartDetailsItem();
 						item.Lessons = new string[foundedTimes.Count];
 
-						var lessonsOnDay = foundedChart.LessonGruops.Where(l => l.Day.Equals(GetDay(i))).ToList();
+						var lessonsOnDay = GetLessonsOnDay(foundedChart.LessonGruops.ToList(), i);
 						item.Day = DayToPersian(GetDay(i));
 
 							for (int j = 0; j < foundedTimes.Count; j++)
@@ -56,8 +58,8 @@ namespace EV.Application.Services.Chart.Queries.GetChartDetails
 											lessonsOnDay[k].Time.To.Equals(foundedTimes[j].To))
 										{
 											item.Lessons[j] = $"{lessonsOnDay[k].Lesson.Name} - {lessonsOnDay[k].Lesson.Unit} واحد\n" +
-															  $"{lessonsOnDay[k].TeacherName}\n" +
-															  $"{lessonsOnDay[k].Code}";
+															  $"{lessonsOnDay[k].LessonGroup.TeacherName}\n" +
+															  $"{lessonsOnDay[k].LessonGroup.Code}";
 											
 											break;
 										}
@@ -164,6 +166,38 @@ namespace EV.Application.Services.Chart.Queries.GetChartDetails
 			throw new Exception();
 			return EDay.Thursday;
 		}
+		private List<LessonsOnDay> GetLessonsOnDay(List<LessonGroup> lessonGroups, int day)
+		{
+			List<LessonsOnDay> result = new List<LessonsOnDay>();
+
+			foreach(var item in lessonGroups)
+			{
+				foreach(var innerItem in item.lessonGruopClasses)
+				{
+					if(innerItem.Day.Equals(GetDay(day)))
+					{
+						result.Add(new LessonsOnDay()
+						{
+							Day = innerItem.Day,
+							Lesson = item.Lesson,
+							LessonGroup = item,
+							Time = innerItem.Time
+						});
+					}
+				}
+			}
+
+			return result;
+		}
+
+	}
+
+	internal class LessonsOnDay
+	{
+		internal EDay Day { get; set; }
+		internal Lesson Lesson { get; set; }
+		internal LessonGroup LessonGroup { get; set; }
+		internal Time Time { get; set; }
 
 	}
 }

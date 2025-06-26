@@ -1,4 +1,5 @@
 ﻿using EV.Domain.Entities.Day;
+using EV.Domain.Entities.Lessson;
 using EV.Domain.Entities.Time;
 
 
@@ -10,9 +11,7 @@ namespace EV.Application.Services.Calculator.Queries
 		public Guid LessonId { get; set; }
 
 		public Guid GruopId { get; set; }
-
-		public Time Time { get; set; }
-		public EDay Day { get; set; }
+		public List<LessonGruopClass> classes { get; set; }
 		public bool IsLastGroup {  get; set; }	
 	}
 }
