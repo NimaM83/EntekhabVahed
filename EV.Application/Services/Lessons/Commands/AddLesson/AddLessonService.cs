@@ -24,29 +24,34 @@ namespace EV.Application.Services.Lessons.Commands.AddLesson
                         Unit = request.unit
                     };
                     _context.Lessons.Add(newLesson);
+					_context.SaveChanges();
 
-                    foreach(var item in request.Groups)
+					foreach (var item in request.Groups)
                     {
                         LessonGroup newLessonGroup = new LessonGroup()
                         {
                             Code = item.Code,
                             TeacherName = item.TeacherName,
+                            LessonId = newLesson.Id
                         };
                         _context.LessonGroups.Add(newLessonGroup);
+						_context.SaveChanges();
 
 
-                        foreach(var inerItem in item.Classes)
+						foreach (var inerItem in item.Classes)
                         {
                             _context.Classes.Add(new LessonGruopClass()
                             {
                                 TimeId = inerItem.TimeId,
                                 Day = inerItem.Day,
+                                LessonGroup = newLessonGroup,
                                 GruopId = newLessonGroup.Id,
                             });
-                        }
+							_context.SaveChanges();
+						}
                     }
 
-                    _context.SaveChanges();
+                    
 
                     return new Result()
                     {

@@ -11,7 +11,7 @@ namespace EV.Domain.Entities.Lessson
     {
         public  Guid Id { get; set; }
         public string Code { get; set; }
-        public ICollection<LessonGruopClass> lessonGruopClasses { get; set; }
+        public virtual ICollection<LessonGruopClass> lessonGruopClasses { get; set; }
         public string TeacherName { get; set; }
         public Guid LessonId { get; set; }
         public virtual Lesson Lesson { get; set; }

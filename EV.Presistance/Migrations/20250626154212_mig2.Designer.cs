@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EV.Presistance.Migrations
 {
     [DbContext(typeof(DataBaseContext))]
-    [Migration("20250626111002_mig2")]
+    [Migration("20250626154212_mig2")]
     partial class mig2
     {
         /// <inheritdoc />

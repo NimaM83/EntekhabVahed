@@ -28,11 +28,8 @@ namespace EV.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult SetTimes(int timesCount)
-        {
-
-            ViewBag.timesCount = timesCount;
-            
+        public IActionResult SetTimes()
+        {            
             return View();
         }
 
@@ -71,7 +68,7 @@ namespace EV.Web.Controllers
             var res = _services.LessonServices.AddLesson.Execute(request);
             if (res.IsSuccess)
             {
-                return RedirectToAction();
+                return RedirectToAction("CalculateEV");
             }
 
             return Json(res);

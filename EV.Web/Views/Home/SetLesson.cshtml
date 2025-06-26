@@ -1,6 +1,7 @@
 ﻿@using EV.Application.Services.Days.Queries.GetDays
 @using EV.Application.Services.Lessons.Commands.AddLesson
 @using EV.Application.Services.Times.Queries.GetTimes
+@using Newtonsoft.Json;
 @{
 	Layout = null;
 	ResGetTimes times = ViewBag.Times;
@@ -26,63 +27,74 @@
 			<div class="contact1-pic js-tilt" data-tilt>
 				<img src="~/pics/img-01.png" alt="IMG">
 			</div>
+			<div>
+
+			</div>
 			<form class="contact1-form validate-form" method="post">
 				<span class="contact1-form-title">فرم افزودن درس</span>
 				<div class="wrap-input1 validate-input">
 					<label> نام درس را وارد کنید:</label>
-					<input class="input1" asp-for="@Model.Name" type="text">
+					<input class="input1" name="name" type="text">
 					<span class="shadow-input1"></span>
 				</div>
 
 				<div class="wrap-input1 validate-input">
 					<label>واحد درس را  وارد  کنید:</label>
-					<input class="input1" asp-for="@Model.unit" type="number">
+					<input class="input1" name="unit" type="number">
 					<span class="shadow-input1"></span>
 				</div>
 				<br />
 
 				<div class="wrap-input1 validate-input">
-					<div id="group-container">
+					<div id="groups">
 
-						
-
-					@* 	@for (int i = 1; i < 10; i++)
-						{
-							<label>گروه @(i + 1)</label>
+						<div>
+							<label>گروه 1</label>
 							<div>
 								<label>کد درس</label>
-								<input class="input1" asp-for="@Model.Groups[i].Code" type="text" placeholder="xxxxxxx_xx">
+								<input class="input1" name="Groups[0].Code" type="text" placeholder="xxxxxxx_xx">
 								<span class="shadow-input1"></span>
-								<br />
-
-								<label>ساعت کلاس</label>
-								<select asp-for="@Model.Groups[i].TimeId">
-									@foreach (var item in times.Times)
-									{
-										<option value="@item.Id">@item.From - @item.To</option>
-									}
-								</select>
-								<br />
-
-								<label>روز کلاس</label>
-								<select asp-for="@Model.Groups[i].Day">
-									@foreach (var item in days.Days)
-									{
-										<option value="@item.Value">@item.Day</option>
-									}
-								</select>
 								<br />
 
 								<label>نام استاد</label>
-								<input class="input1" asp-for="@Model.Groups[i].TeacherName" type="text">
+								<input class="input1" name="Groups[0].TeacherName" type="text">
 								<span class="shadow-input1"></span>
-								<br /> <br />
+								<br />
 
+								<div id="classes0">
+									<div>
+										<h5>کلاس 1</h5>
+
+										<label>ساعت کلاس</label>
+										<select name="Groups[0].Classes[0].TimeId" class="timeSelect">
+											@foreach (var item in times.Times)
+											{
+												<option value="@item.Id">@item.From-@item.To</option>
+											}
+										</select>
+										<br />
+
+										<label>روز کلاس</label>
+										<select name="Groups[0].Classes[0].Day" class="daySelect">
+											@foreach (var item in days.Days)
+											{
+												<option value="@item.Value">@item.Day</option>
+											}
+										</select>
+										<br />
+									</div>
+								</div>
+
+								<a class="btn btn-primary" onclick="addClass(0)">افزودن کلاس</a>
+								<br />
+								<br />
 							</div>
-						} *@
-
+						</div>
+						<hr />
 
 					</div>
+					<a class="btn btn-info" onclick="addGroup()">افزودن گروه</a>
+					<br />
 				</div>
 
 				<div class="container-contact1-form-btn">
@@ -93,12 +105,105 @@
 						</span>
 					</button>
 				</div>
+				<br />
+				<div class="container-contact1-form-btn">
+					<button class="btn btn-light" type="submit">
+						<span>
+							ثبت درس و دیدن نتایج
+							<i class="fa fa-long-arrow-left" aria-hidden="true"></i>
+						</span>
+					</button>
+				</div>
 			</form>
 		</div>
 	</div>
 	<!-- Scripts -->
 	<script src="~/js/jquery-3.1.1.min.js"></script>
 	<script src="~/js/scripts.js"></script>
+	<script>
+		let Times = @Html.Raw(JsonConvert.SerializeObject(times.Times));
+		let Days = @Html.Raw(JsonConvert.SerializeObject(days.Days));
+
+		let TimesOption = '';
+		for(let item of Times)
+		{
+			TimesOption += `<option value="${item.Id}">${item.From}-${item.To}</option>`;
+		}
+
+		let DaysOption = '';
+		for(let item of Days)
+		{
+			DaysOption += `<option value="${item.Value}">${item.Day}</option>`;
+		}
+
+		let classesIndex = 1;
+		let groupsIndex = 1;
+
+		function addClass(groupIndex){
+
+			let newDiv = document.createElement("div");
+			newDiv.innerHTML = `<h5>کلاس ${classesIndex+1}</h5>
+
+										<label>ساعت کلاس</label>
+										<select name="Groups[${groupIndex}].Classes[${classesIndex}].TimeId" class="timeSelect">
+											${TimesOption}
+										</select>
+										<br />
+
+										<label>روز کلاس</label>
+										<select name="Groups[${groupIndex}].Classes[${classesIndex}].Day" class="daySelect">
+											${DaysOption}
+										</select>
+										<br />`;
+
+			document.getElementById(`classes${groupIndex}`).appendChild(newDiv);
+			classesIndex++;
+		}
+
+		function addGroup(){
+
+			let newGroup = document.createElement("div");
+			newGroup.innerHTML = `<div>
+							<label>گروه ${groupsIndex+1}</label>
+							<div>
+								<label>کد درس</label>
+								<input class="input1" name="Groups[${groupsIndex}].Code" type="text" placeholder="xxxxxxx_xx">
+								<span class="shadow-input1"></span>
+								<br />
+
+								<label>نام استاد</label>
+								<input class="input1" name="Groups[${groupsIndex}].TeacherName" type="text">
+								<span class="shadow-input1"></span>
+								<br />
+
+								<div id="classes${groupsIndex}">
+									<div>
+										<h5>کلاس 1</h5>
+
+										<label>ساعت کلاس</label>
+										<select name="Groups[${groupsIndex}].Classes[0].TimeId" class="timeSelect">
+											${TimesOption}
+										</select>
+										<br />
+
+										<label>روز کلاس</label>
+										<select name="Groups[${groupsIndex}].Classes[0].Day" class="daySelect">
+											${DaysOption}
+										</select>
+										<br />
+									</div>
+								</div>
+
+								<a class="btn btn-primary" onclick="addClass(${groupsIndex})">افزودن کلاس</a>
+								<br />
+								<br />
+							</div>
+						</div><hr />`;
+
+			document.getElementById("groups").appendChild(newGroup);
+			groupsIndex++;
+		}
+	</script>
 	
 </body><!-- This template has been downloaded from Webrubik.com -->
 </html>
