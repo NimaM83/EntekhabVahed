@@ -136,28 +136,28 @@
 			DaysOption += `<option value="${item.Value}">${item.Day}</option>`;
 		}
 
-		let classesIndex = 1;
+		let classesIndex = [1];
 		let groupsIndex = 1;
 
 		function addClass(groupIndex){
 
 			let newDiv = document.createElement("div");
-			newDiv.innerHTML = `<h5>کلاس ${classesIndex+1}</h5>
+			newDiv.innerHTML = `<h5>کلاس ${classesIndex[groupIndex]+1}</h5>
 
 										<label>ساعت کلاس</label>
-										<select name="Groups[${groupIndex}].Classes[${classesIndex}].TimeId" class="timeSelect">
+										<select name="Groups[${groupIndex}].Classes[${classesIndex[groupIndex]}].TimeId" class="timeSelect">
 											${TimesOption}
 										</select>
 										<br />
 
 										<label>روز کلاس</label>
-										<select name="Groups[${groupIndex}].Classes[${classesIndex}].Day" class="daySelect">
+										<select name="Groups[${groupIndex}].Classes[${classesIndex[groupIndex]}].Day" class="daySelect">
 											${DaysOption}
 										</select>
 										<br />`;
 
 			document.getElementById(`classes${groupIndex}`).appendChild(newDiv);
-			classesIndex++;
+			classesIndex[groupIndex]++;
 		}
 
 		function addGroup(){
@@ -202,6 +202,7 @@
 
 			document.getElementById("groups").appendChild(newGroup);
 			groupsIndex++;
+			classesIndex.push(1);
 		}
 	</script>
 	
