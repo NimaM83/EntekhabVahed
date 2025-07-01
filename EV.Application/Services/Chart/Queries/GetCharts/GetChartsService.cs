@@ -12,11 +12,14 @@ namespace EV.Application.Services.Chart.Queries.GetCharts
 			_context = context;
 		}
 
-		public Result<ResGetChartsDto> Execute()
+		public Result<ResGetChartsDto> Execute(Guid EVId)
 		{
 			try
 			{
-				List<Guid> Charts = _context.Charts.Select(c => c.Id).ToList();
+				List<Guid> Charts = _context.Charts
+									.Where(c => c.EVId.Equals(EVId))
+									.Select(c => c.Id)
+									.ToList();
 
 				if(Charts.Any())
 				{

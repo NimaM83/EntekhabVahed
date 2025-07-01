@@ -12,8 +12,10 @@ namespace EV.Domain.Entities.EV
 	{
 		public Guid Id { get; set; }
 		public bool IsFinished { get; set; }
+		public int Number { get; set; }
+		public string Title { get; set; }
 		public virtual ICollection<Chart.Chart> Charts { get; set; }
 		public virtual ICollection<Lesson> Lessons { get; set; }
-		public virtual ICollection<Time.Time> Times { get; set}
+		public virtual ICollection<Time.Time> Times { get; set; }
 	}
 }
