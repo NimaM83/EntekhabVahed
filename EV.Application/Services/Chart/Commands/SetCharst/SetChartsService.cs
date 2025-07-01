@@ -11,7 +11,7 @@ namespace EV.Application.Services.Chart.Commands.SetCharst
 			_context = context;
 		}
 
-		public Result Execute (ReqSetChartDto request)
+		public Result<Guid> Execute (ReqSetChartDto request)
 		{
 			try
 			{
@@ -21,7 +21,7 @@ namespace EV.Application.Services.Chart.Commands.SetCharst
 					{
 						if(_context.LessonGroups.Find(inerItem) == null)
 						{
-							return new Result()
+							return new Result<Guid>()
 							{
 								IsSuccess = false,
 								Message = "یکی از گروه های درسی یافت نشد"
@@ -30,15 +30,21 @@ namespace EV.Application.Services.Chart.Commands.SetCharst
 					}
 				}
 
-				foreach(var item in request.Charts)
+				var ev = new Domain.Entities.EV.EV();
+				_context.EVs.Add(ev);
+				_context.SaveChanges();
+
+				foreach (var item in request.Charts)
 				{
 					var chart = new Domain.Entities.Chart.Chart();
 					chart.LessonGroupsId = item.LessonGroupsId;
+
+					chart.EVId = ev.Id;
 					_context.Charts.Add(chart);
 				}
 				_context.SaveChanges();
 
-				return new Result()
+				return new Result<Guid>()
 				{
 					IsSuccess = true,
 					Message = "جدول ها با موفقیت ساخته شدند"
@@ -47,7 +53,7 @@ namespace EV.Application.Services.Chart.Commands.SetCharst
 
 			} catch(Exception ex)
 			{
-				return new Result()
+				return new Result<Guid>()
 				{
 					IsSuccess = false,
 					Message = "خطای نامشخصی رخ داد"

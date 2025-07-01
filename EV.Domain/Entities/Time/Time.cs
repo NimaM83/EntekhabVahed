@@ -11,6 +11,7 @@ namespace EV.Domain.Entities.Time
         public Guid Id { get; set; }
         public TimeOnly From { get; set; }
         public TimeOnly To { get; set; }
+        public Guid EVId { get; set; }
 
     }
 }

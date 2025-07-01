@@ -10,7 +10,7 @@ namespace EV.Application.Services.Chart.Commands.SetCharst
 {
 	public interface ISetChartsService
 	{
-		Result Execute(ReqSetChartDto request);
+		Result<Guid> Execute(ReqSetChartDto request);
 	}
 		
 }
