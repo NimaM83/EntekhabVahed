@@ -28,19 +28,45 @@ namespace EV.Presistance.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("EVId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.PrimitiveCollection<string>("LessonGroupsId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("EVId");
+
                     b.ToTable("Charts");
+                });
+
+            modelBuilder.Entity("EV.Domain.Entities.EV.EV", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("State")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("EVs");
                 });
 
             modelBuilder.Entity("EV.Domain.Entities.Lessson.Lesson", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("EVId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
@@ -51,6 +77,8 @@ namespace EV.Presistance.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("EVId");
 
                     b.ToTable("Lessons");
                 });
@@ -117,6 +145,9 @@ namespace EV.Presistance.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("EVId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<TimeOnly>("From")
                         .HasColumnType("time");
 
@@ -125,7 +156,25 @@ namespace EV.Presistance.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("EVId");
+
                     b.ToTable("Times");
+                });
+
+            modelBuilder.Entity("EV.Domain.Entities.Chart.Chart", b =>
+                {
+                    b.HasOne("EV.Domain.Entities.EV.EV", null)
+                        .WithMany("Charts")
+                        .HasForeignKey("EVId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("EV.Domain.Entities.Lessson.Lesson", b =>
+                {
+                    b.HasOne("EV.Domain.Entities.EV.EV", null)
+                        .WithMany("Lessons")
+                        .HasForeignKey("EVId");
                 });
 
             modelBuilder.Entity("EV.Domain.Entities.Lessson.LessonGroup", b =>
@@ -162,9 +211,27 @@ namespace EV.Presistance.Migrations
                     b.Navigation("Time");
                 });
 
+            modelBuilder.Entity("EV.Domain.Entities.Time.Time", b =>
+                {
+                    b.HasOne("EV.Domain.Entities.EV.EV", null)
+                        .WithMany("Times")
+                        .HasForeignKey("EVId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("EV.Domain.Entities.Chart.Chart", b =>
                 {
                     b.Navigation("LessonGruops");
+                });
+
+            modelBuilder.Entity("EV.Domain.Entities.EV.EV", b =>
+                {
+                    b.Navigation("Charts");
+
+                    b.Navigation("Lessons");
+
+                    b.Navigation("Times");
                 });
 
             modelBuilder.Entity("EV.Domain.Entities.Lessson.Lesson", b =>

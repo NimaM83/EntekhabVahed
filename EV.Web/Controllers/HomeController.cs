@@ -20,22 +20,21 @@ namespace EV.Web.Controllers
 
         public IActionResult Index()
         {
-            if(_services.TimeServices.GetTimes.Execute().IsSuccess)
-            {
-                return RedirectToAction("SetLesson");
-            }
-            return View();
+            return View(_services.EVsServices.GetEVs.Execute());
         }
 
         [HttpGet]
-        public IActionResult SetTimes()
-        {            
+        public IActionResult SetTimes(string EVTitle)
+        {
+            string EVId = _services.EVsServices.AddEV.Execute(EVTitle).Data.ToString();
+            CookiesManager.Add(HttpContext, "ActiveEVId", EVId, 1);
             return View();
         }
 
         [HttpPost]
         public IActionResult SetTimes(ReqAddTimeService request)
         {
+            request.EVId = Guid.Parse(CookiesManager.GetValue(HttpContext, "ActiveEVId"));
             var res = _services.TimeServices.AddTime.Execute(request);
 
             if(res.IsSuccess)
@@ -114,7 +113,7 @@ namespace EV.Web.Controllers
 
         public IActionResult Charts()
         {
-            return View(_services.ChartServices.GetCharts.Execute());
+            return View(/*_services.ChartServices.GetCharts.Execute()*/);
         }
 
         public IActionResult ChartDetails (Guid ChartId)

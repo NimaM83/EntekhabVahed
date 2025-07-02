@@ -3,7 +3,7 @@ using EV.Application.Interfaces.Services;
 using EV.Application.Services.Calculator;
 using EV.Application.Services.Chart;
 using EV.Application.Services.Days;
-using EV.Application.Services.EVs.Queries;
+using EV.Application.Services.EVs;
 using EV.Application.Services.Lessons;
 using EV.Application.Services.Times;
 
@@ -68,7 +68,7 @@ namespace EV.Application.Services
         {
             get
             {
-                return _EVsServices = _EVsServices ?? new EVsServices(_context);
+                return _EVsServices = _EVsServices ?? new EVsServices(_context,ChartServices);
             }
         }
     }

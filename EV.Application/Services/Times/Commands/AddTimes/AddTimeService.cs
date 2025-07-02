@@ -21,6 +21,7 @@ namespace EV.Application.Services.Times.Commands.AddTimes
                 {
                     From = request.Times.First().From,
                     To = request.Times.First().To,
+                    EVId = request.EVId
                 });
 
 				if (ExistTimes.First().From >= ExistTimes.First().To)
@@ -39,6 +40,7 @@ namespace EV.Application.Services.Times.Commands.AddTimes
                     {
                         From = request.Times.ElementAt(i).From,
                         To = request.Times.ElementAt(i).To,
+                        EVId = request.EVId
                     };
 
                     if(temp.From >= temp.To)

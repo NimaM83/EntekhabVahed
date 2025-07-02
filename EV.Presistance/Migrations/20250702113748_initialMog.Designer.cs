@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EV.Presistance.Migrations
 {
     [DbContext(typeof(DataBaseContext))]
-    [Migration("20250606161921_mig1")]
-    partial class mig1
+    [Migration("20250702113748_initialMog")]
+    partial class initialMog
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,19 +31,45 @@ namespace EV.Presistance.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("EVId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.PrimitiveCollection<string>("LessonGroupsId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("EVId");
+
                     b.ToTable("Charts");
+                });
+
+            modelBuilder.Entity("EV.Domain.Entities.EV.EV", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("State")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("EVs");
                 });
 
             modelBuilder.Entity("EV.Domain.Entities.Lessson.Lesson", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("EVId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
@@ -54,6 +80,8 @@ namespace EV.Presistance.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("EVId");
 
                     b.ToTable("Lessons");
                 });
@@ -71,9 +99,6 @@ namespace EV.Presistance.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Day")
-                        .HasColumnType("int");
-
                     b.Property<Guid>("LessonId")
                         .HasColumnType("uniqueidentifier");
 
@@ -81,24 +106,49 @@ namespace EV.Presistance.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("TimeId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ChartId");
 
                     b.HasIndex("LessonId");
 
+                    b.ToTable("LessonGroups");
+                });
+
+            modelBuilder.Entity("EV.Domain.Entities.Lessson.LessonGruopClass", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Day")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("GruopId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("LessonGroupId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("TimeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LessonGroupId");
+
                     b.HasIndex("TimeId");
 
-                    b.ToTable("LessonGroups");
+                    b.ToTable("Classes");
                 });
 
             modelBuilder.Entity("EV.Domain.Entities.Time.Time", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("EVId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<TimeOnly>("From")
@@ -109,7 +159,25 @@ namespace EV.Presistance.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("EVId");
+
                     b.ToTable("Times");
+                });
+
+            modelBuilder.Entity("EV.Domain.Entities.Chart.Chart", b =>
+                {
+                    b.HasOne("EV.Domain.Entities.EV.EV", null)
+                        .WithMany("Charts")
+                        .HasForeignKey("EVId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("EV.Domain.Entities.Lessson.Lesson", b =>
+                {
+                    b.HasOne("EV.Domain.Entities.EV.EV", null)
+                        .WithMany("Lessons")
+                        .HasForeignKey("EVId");
                 });
 
             modelBuilder.Entity("EV.Domain.Entities.Lessson.LessonGroup", b =>
@@ -124,15 +192,35 @@ namespace EV.Presistance.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Lesson");
+                });
+
+            modelBuilder.Entity("EV.Domain.Entities.Lessson.LessonGruopClass", b =>
+                {
+                    b.HasOne("EV.Domain.Entities.Lessson.LessonGroup", "LessonGroup")
+                        .WithMany("lessonGruopClasses")
+                        .HasForeignKey("LessonGroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("EV.Domain.Entities.Time.Time", "Time")
                         .WithMany()
                         .HasForeignKey("TimeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Lesson");
+                    b.Navigation("LessonGroup");
 
                     b.Navigation("Time");
+                });
+
+            modelBuilder.Entity("EV.Domain.Entities.Time.Time", b =>
+                {
+                    b.HasOne("EV.Domain.Entities.EV.EV", null)
+                        .WithMany("Times")
+                        .HasForeignKey("EVId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("EV.Domain.Entities.Chart.Chart", b =>
@@ -140,9 +228,23 @@ namespace EV.Presistance.Migrations
                     b.Navigation("LessonGruops");
                 });
 
+            modelBuilder.Entity("EV.Domain.Entities.EV.EV", b =>
+                {
+                    b.Navigation("Charts");
+
+                    b.Navigation("Lessons");
+
+                    b.Navigation("Times");
+                });
+
             modelBuilder.Entity("EV.Domain.Entities.Lessson.Lesson", b =>
                 {
                     b.Navigation("LessonGroups");
+                });
+
+            modelBuilder.Entity("EV.Domain.Entities.Lessson.LessonGroup", b =>
+                {
+                    b.Navigation("lessonGruopClasses");
                 });
 #pragma warning restore 612, 618
         }

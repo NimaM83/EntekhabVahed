@@ -11,6 +11,11 @@ namespace EV.Common.Utilities
 			context.Response.Cookies.Append(key, value, GetCookieOptions(context, days));
 		}
 
+		public static void Add(HttpContext context, string key, string value, TimeOnly houers)
+		{
+			context.Response.Cookies.Append(key, value, GetCookieOptions(context, houers));
+		}
+
 		public static void Remove(HttpContext context, string key)
 		{
 			context.Response.Cookies.Delete(key);
@@ -37,6 +42,17 @@ namespace EV.Common.Utilities
 				Secure = context.Request.IsHttps,
 				Path = context.Request.PathBase.HasValue ? context.Request.PathBase.ToString() : "/",
 				Expires = DateTime.Now.AddDays(days)
+			};
+		}
+
+		private static CookieOptions GetCookieOptions(HttpContext context, TimeOnly houers)
+		{
+			return new CookieOptions()
+			{
+				HttpOnly = true,
+				Secure = context.Request.IsHttps,
+				Path = context.Request.PathBase.HasValue ? context.Request.PathBase.ToString() : "/",
+				Expires = DateTime.Now.AddHours(houers.Hour)
 			};
 		}
 	}

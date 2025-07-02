@@ -2,7 +2,7 @@
 using EV.Application.Services.Calculator.Queries;
 using EV.Application.Services.Chart;
 using EV.Application.Services.Days;
-using EV.Application.Services.EVs.Queries;
+using EV.Application.Services.EVs;
 using EV.Application.Services.Lessons;
 using EV.Application.Services.Times;
 using System;

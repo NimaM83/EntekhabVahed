@@ -4,7 +4,7 @@ using EV.Domain.Entities.Common;
 
 namespace EV.Application.Services.EVs.Queries.GetEVDetails
 {
-	public class GetEVDetailsService
+	public class GetEVDetailsService : IGetEVDetailsService
 	{
 		private readonly IChartServices _chartContext;
 		private readonly IDataBaseContext _dbContext;
@@ -33,9 +33,8 @@ namespace EV.Application.Services.EVs.Queries.GetEVDetails
 							Data = new ResGetEVDetailsDto()
 							{
 								ChartsResult = charts.Data,
-								Number = ev.Number,
 								Title = ev.Title,
-								IsFinished = ev.IsFinished
+								State = ev.State
 							}
 						};
 					}
