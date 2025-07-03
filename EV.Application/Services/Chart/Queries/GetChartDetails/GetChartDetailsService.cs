@@ -24,7 +24,7 @@ namespace EV.Application.Services.Chart.Queries.GetChartDetails
 
                 if (foundedChart != null)
                 {
-					var foundedTimes = _context.Times.ToList();
+					var foundedTimes = _context.Times.Where(t => t.EVId.Equals(foundedChart.EVId)).ToList();
 					foundedTimes = SortTimes(foundedTimes);
 					var foundedGroups = new List<LessonGroup>();
 
@@ -57,7 +57,7 @@ namespace EV.Application.Services.Chart.Queries.GetChartDetails
 										if (lessonsOnDay[k].Time.From.Equals(foundedTimes[j].From) &&
 											lessonsOnDay[k].Time.To.Equals(foundedTimes[j].To))
 										{
-											item.Lessons[j] = $"{lessonsOnDay[k].Lesson.Name} - {lessonsOnDay[k].Lesson.Unit} واحد\n" +
+											item.Lessons[j] = $"{lessonsOnDay[k].Lesson.Name}\n" +
 															  $"{lessonsOnDay[k].LessonGroup.TeacherName}\n" +
 															  $"{lessonsOnDay[k].LessonGroup.Code}";
 											

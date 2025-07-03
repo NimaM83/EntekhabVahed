@@ -139,6 +139,9 @@ namespace EV.Web.Controllers
             if(EVId is not null)
             {
                 temp = Guid.Parse(EVId.ToString());
+
+                CookiesManager.Remove(HttpContext, "ActivrEVId");
+                CookiesManager.Add(HttpContext, "ActiveEVId",temp.ToString() , 1);
 			}
             else
             {
@@ -170,7 +173,7 @@ namespace EV.Web.Controllers
                     return RedirectToAction("SetTimes");
 
                 case EVState.SetLessons:
-                    return RedirectToAction("SetLessons");
+                    return RedirectToAction("SetLesson");
 
                 default:
                     return BadRequest();
