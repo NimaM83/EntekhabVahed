@@ -5,6 +5,6 @@ namespace EV.Application.Services.Calculator.Queries
 {
 	public interface ICalculateEVService
 	{
-		Result<ResCalculateEVDto> Execute();
+		Result<ResCalculateEVDto> Execute(Guid EVId);
 	}
 }

@@ -13,14 +13,24 @@ namespace EV.Application.Services.Lessons.Queries.GetSortedLesson
 			_context = context;
 		}
 
-		public Result<ResSortedLessonDto> Execute()
+		public Result<ResSortedLessonDto> Execute(Guid EVId)
 		{
 			try
 			{
-				var foundedLesson = _context.Lessons.Include(L => L.LessonGroups)
-									.ThenInclude(G => G.lessonGruopClasses)
-									.ThenInclude(C => C.Time)
-									.ToList();
+				var foundedEV = _context.EVs.Find(EVId);
+
+				List<Lesson> foundedLesson = new List<Lesson>();
+				foreach(var item in foundedEV.LessonsId)
+				{
+					foundedLesson.Add
+						(
+							_context.Lessons.Where(l => l.Id.Equals(item))
+											.Include(l => l.LessonGroups)
+											.ThenInclude(g => g.lessonGruopClasses)
+											.ThenInclude(c => c.Time)
+											.FirstOrDefault() ?? throw new NullReferenceException()
+						);
+				}
 
 				Lesson min;
 				Lesson temp;

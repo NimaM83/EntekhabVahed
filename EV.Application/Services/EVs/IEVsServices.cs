@@ -1,6 +1,8 @@
 ﻿using EV.Application.Interfaces.Context;
 using EV.Application.Services.Chart;
 using EV.Application.Services.EVs.Commands.AddEV;
+using EV.Application.Services.EVs.Commands.ChangeEVState;
+using EV.Application.Services.EVs.Commands.RemoveEV;
 using EV.Application.Services.EVs.Queries.GetChartsListCount;
 using EV.Application.Services.EVs.Queries.GetEVDetails;
 using EV.Application.Services.EVs.Queries.GetEVs;
@@ -19,6 +21,8 @@ namespace EV.Application.Services.EVs
 		IGetEVsService GetEVs { get; }
 		IGetEVDetailsService GetEVDetails { get; }
 		IAddNewEVService AddEV { get; }
+		IChangeEVStateService ChangeEVState { get; }
+		IRemoveEVService RemoveEV { get; }
 	}
 
 	public class EVsServices : IEVsServices
@@ -64,6 +68,24 @@ namespace EV.Application.Services.EVs
 			get
 			{
 				return _addEV = _addEV ?? new AddNewEVService(_dbContext);
+			}
+		}
+
+		private IChangeEVStateService _changeEVState;
+		public IChangeEVStateService ChangeEVState
+		{
+			get
+			{
+				return _changeEVState = _changeEVState ?? new ChangeEVStateService(_dbContext);
+			}
+		}
+
+		private IRemoveEVService _removeEV;
+		public IRemoveEVService RemoveEV
+		{
+			get
+			{
+				return _removeEV = _removeEV ?? new RemoveEVService(_dbContext);
 			}
 		}
 

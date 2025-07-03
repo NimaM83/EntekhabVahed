@@ -5,5 +5,6 @@
         public string Name { get; set; }
         public int unit { get; set; }
         public List<AddLessonItem> Groups { get; set; }
+        public Guid EVId { get; set; }
     }
 }

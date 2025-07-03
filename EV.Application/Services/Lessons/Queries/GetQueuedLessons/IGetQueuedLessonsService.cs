@@ -9,6 +9,6 @@ namespace EV.Application.Services.Lessons.Queries.GetQueuedLessons
 {
 	public interface IGetQueuedLessonsService
 	{
-		Result<ResQueuedLessonsDto> Execute();
+		Result<ResQueuedLessonsDto> Execute(Guid EVId);
 	}
 }

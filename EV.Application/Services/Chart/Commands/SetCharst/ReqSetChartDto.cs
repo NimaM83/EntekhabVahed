@@ -3,6 +3,7 @@
 	public class ReqSetChartDto
 	{
 		public List<ChartsItem> Charts { get; set; }
+		public Guid EVId {  get; set; }
 	}
 		
 }

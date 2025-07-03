@@ -30,16 +30,11 @@ namespace EV.Application.Services.Chart.Commands.SetCharst
 					}
 				}
 
-				var ev = new Domain.Entities.EV.EV();
-				_context.EVs.Add(ev);
-				_context.SaveChanges();
-
 				foreach (var item in request.Charts)
 				{
 					var chart = new Domain.Entities.Chart.Chart();
 					chart.LessonGroupsId = item.LessonGroupsId;
-
-					chart.EVId = ev.Id;
+					chart.EVId = request.EVId;
 					_context.Charts.Add(chart);
 				}
 				_context.SaveChanges();

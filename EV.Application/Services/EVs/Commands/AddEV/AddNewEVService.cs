@@ -19,7 +19,8 @@ namespace EV.Application.Services.EVs.Commands.AddEV
 				var newEV = new Domain.Entities.EV.EV()
 				{
 					Title = title,
-					State  = EVState.SetTime
+					State = EVState.SetTime,
+					LessonsId = new List<Guid>()
 				};
 
 				_dbContext.EVs.Add(newEV);

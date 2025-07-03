@@ -26,6 +26,10 @@ namespace EV.Application.Services.Lessons.Commands.AddLesson
                     _context.Lessons.Add(newLesson);
 					_context.SaveChanges();
 
+                    var foundedEV = _context.EVs.Find(request.EVId);
+                    foundedEV.LessonsId.Add(newLesson.Id);
+
+
 					foreach (var item in request.Groups)
                     {
                         LessonGroup newLessonGroup = new LessonGroup()

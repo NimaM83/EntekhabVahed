@@ -16,11 +16,11 @@ namespace EV.Application.Services.Calculator.Queries
 			_dbContext = dbContext;
 		}
 
-		public Result<ResCalculateEVDto> Execute()
+		public Result<ResCalculateEVDto> Execute(Guid EVId)
 		{
 			try
 			{
-				var queuedLessons = _lessonServices.GetQueuedLessons.Execute();
+				var queuedLessons = _lessonServices.GetQueuedLessons.Execute(EVId);
 
 				if(queuedLessons.IsSuccess)
 				{

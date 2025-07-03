@@ -5,6 +5,6 @@ namespace EV.Application.Services.Lessons.Queries.GetSortedLesson
 {
 	public interface IGetSortedLessonService
 	{
-		Result<ResSortedLessonDto> Execute();
+		Result<ResSortedLessonDto> Execute(Guid EVId);
 	}
 }

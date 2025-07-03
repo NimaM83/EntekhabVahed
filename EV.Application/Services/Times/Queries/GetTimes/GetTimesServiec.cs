@@ -12,11 +12,11 @@ namespace EV.Application.Services.Times.Queries.GetTimes
 			_context = context;
 		}
 
-		public Result<ResGetTimes> Execute()
+		public Result<ResGetTimes> Execute(Guid EVId)
 		{
 			try
 			{
-				var foundedTimes = _context.Times.ToList();
+				var foundedTimes = _context.Times.Where(t => t.EVId.Equals(EVId)).ToList();
 				if (foundedTimes.Any())
 				{
 					foundedTimes = SortTimes(foundedTimes);

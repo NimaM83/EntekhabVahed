@@ -9,6 +9,6 @@ namespace EV.Application.Services.Times.Queries.GetTimes
 {
 	public interface IGetTimesService
 	{
-		Result<ResGetTimes> Execute();
+		Result<ResGetTimes> Execute(Guid EVId);
 	}
 }

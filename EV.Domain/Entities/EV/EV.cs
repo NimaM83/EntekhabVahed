@@ -15,6 +15,8 @@ namespace EV.Domain.Entities.EV
 		public Guid Id { get; set; }
 		public EVState State { get; set; }
 		public string Title { get; set; }
+
+		public List<Guid> LessonsId { get; set; }
 		public virtual ICollection<Chart.Chart> Charts { get; set; }
 		public virtual ICollection<Lesson> Lessons { get; set; }
 		public virtual ICollection<Time.Time> Times { get; set; }

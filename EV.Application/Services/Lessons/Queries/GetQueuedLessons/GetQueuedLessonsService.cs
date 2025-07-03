@@ -12,11 +12,11 @@ namespace EV.Application.Services.Lessons.Queries.GetQueuedLessons
 			_sortedLessons = sortedLessons;
 		}
 
-		public Result<ResQueuedLessonsDto> Execute ()
+		public Result<ResQueuedLessonsDto> Execute (Guid EVId)
 		{
 			try
 			{
-				var sortedLessons = _sortedLessons.Execute();
+				var sortedLessons = _sortedLessons.Execute(EVId);
 
 				if(sortedLessons.IsSuccess)
 				{

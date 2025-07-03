@@ -55,18 +55,18 @@
 										@if (Model.Data.EVs[i].State.Equals(EVState.Finished))
 										{
 											<td>
-												<a class="btn btn-primary">مشاهده</a>
+												<a class="btn btn-primary" asp-action="Charts" asp-route-EVId="@Model.Data.EVs[i].Id">مشاهده</a>
 											</td>
 										}
 										else
 										{
 											<td>
-												<a class="btn btn-success">تکمیل کردن</a>
+												<a class="btn btn-success" asp-action="CompletEV" asp-route-EVId="@Model.Data.EVs[i].Id" asp-route-state="@Model.Data.EVs[i].State">تکمیل کردن</a>
 											</td>
 										}
 
 										<td>
-											<a class="btn btn-danger">حذف</a>
+											<a class="btn btn-danger" asp-action="RemoveEV" asp-route-EVId="@Model.Data.EVs[i].Id">حذف</a>
 										</td>
 									</tr>
 								}
