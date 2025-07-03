@@ -26,9 +26,22 @@ git clone https://github.com/NimaM83/EntekhabVahed.git
 bash  
 dotnet restore
 
+### 3. نصب EF Core CLI (ابزار خط فرمان) 
+
+bash 
+dotnet tool install --global dotnet-ef  
+
+### 4. ساخت و به‌روزرسانی دیتابیس با EF Core 
+
+bash
+cd EntekhbVahed
+dotnet ef database update --project ./EV.Presistance/EV.Presistance.csproj --startup-project ./EV.Web/EV.Web.csproj  
 
 
-### 4. اجرای پروژه
+
+
+
+### 5. اجرای پروژه
 
 برای اجرای پروژه می‌توانید از دستور زیر استفاده کنید(در پوشه EV.Web):
 
