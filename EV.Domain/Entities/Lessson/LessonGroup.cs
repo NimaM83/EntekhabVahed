@@ -15,7 +15,9 @@ namespace EV.Domain.Entities.Lessson
         public string Code { get; set; }
         public virtual ICollection<LessonGruopClass> lessonGruopClasses { get; set; }
         public string TeacherName { get; set; }
+        public DateTime ExamDate { get; set; }
         public Guid LessonId { get; set; }
         public virtual Lesson Lesson { get; set; }
+
     }
 }
