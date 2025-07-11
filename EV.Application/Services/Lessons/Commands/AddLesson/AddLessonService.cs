@@ -87,8 +87,8 @@ namespace EV.Application.Services.Lessons.Commands.AddLesson
         {
 
             var result = ConvertDate.ToEn(ExamDate[0], ExamDate[1], ExamDate[2]);
-            result.AddHours(ExamTime.Hour);
-            result.AddMinutes(ExamTime.Minute);
+
+            result += ExamTime.ToTimeSpan();
 
             return result;
             
