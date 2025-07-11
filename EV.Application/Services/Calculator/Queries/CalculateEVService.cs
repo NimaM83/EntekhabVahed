@@ -64,6 +64,7 @@ namespace EV.Application.Services.Calculator.Queries
 									classes = _dbContext.Classes.Where(c => c.GruopId == tempQueueItem.GroupId).ToList(),
 									LessonNum = 0,
 									IsLastGroup = tempQueueItem.IsLastGroup,
+									ExamDate = tempQueueItem.ExamDate
 								});
 
 								queuedLessons.Data.Lessons[0].Enqueue(tempQueueItem);
@@ -79,6 +80,7 @@ namespace EV.Application.Services.Calculator.Queries
 										GruopId = tempQueuedItem.GroupId,
 										classes = _dbContext.Classes.Where(c => c.GruopId == tempQueuedItem.GroupId).ToList(),
 										IsLastGroup = tempQueuedItem.IsLastGroup,
+										ExamDate = tempQueuedItem.ExamDate
 									});
 
 									queuedLessons.Data.Lessons[i].Enqueue(tempQueuedItem);
@@ -138,7 +140,7 @@ namespace EV.Application.Services.Calculator.Queries
 
 			for(int i = 1; i < lessonItems.Length; i++)
 			{
-				if (ValidTime.CheckValidClasses(lessonItems[i], existTimes))
+				if (ValidTime.CheckValidClasses(lessonItems[i], existTimes) && ValidTime.CheckValidExamDate(lessonItems[i], existTimes))
 				{
 					existTimes.Add(lessonItems[i]);
 				}

@@ -8,5 +8,7 @@ namespace EV.Application.Services.Lessons.Commands.AddLesson
         public string Code { get; set; }
         public List<ClassesItem> Classes { get; set; }
         public string TeacherName {  get; set; }
+        public int[] ExamDate { get; set; } = new int[3];
+        public TimeOnly ExamTime { get; set; }
     }
 }

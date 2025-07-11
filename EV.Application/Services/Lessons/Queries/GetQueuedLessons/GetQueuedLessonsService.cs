@@ -33,6 +33,7 @@ namespace EV.Application.Services.Lessons.Queries.GetQueuedLessons
 								GroupId = inerItem.LessonGroupId,
 								ClassesId = inerItem.ClassesId,
 								IsLastGroup = false,
+								ExamDate = inerItem.ExamDate
 							});
 
 						}

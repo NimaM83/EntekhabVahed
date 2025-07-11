@@ -12,6 +12,7 @@ namespace EV.Application.Services.Calculator.Queries
 
 		public Guid GruopId { get; set; }
 		public List<LessonGruopClass> classes { get; set; }
-		public bool IsLastGroup {  get; set; }	
+		public bool IsLastGroup {  get; set; }
+		public DateTime ExamDate { get; set; }
 	}
 }

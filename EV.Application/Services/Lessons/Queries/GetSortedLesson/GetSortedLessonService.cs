@@ -63,6 +63,7 @@ namespace EV.Application.Services.Lessons.Queries.GetSortedLesson
 						{
 							LessonGroupId = inerItem.Id,
 							ClassesId = inerItem.lessonGruopClasses.Select(C => C.Id).ToList(),
+							ExamDate = inerItem.ExamDate
 						});
 					}
 

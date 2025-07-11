@@ -5,6 +5,8 @@ using EV.Domain.Entities.Day;
 using EV.Domain.Entities.Lessson;
 using EV.Domain.Entities.Time;
 using Microsoft.EntityFrameworkCore;
+using PersianDate.Standard;
+using System.Security.Cryptography;
 
 namespace EV.Application.Services.Chart.Queries.GetChartDetails
 {
@@ -32,11 +34,12 @@ namespace EV.Application.Services.Chart.Queries.GetChartDetails
 					{
 						foundedGroups.Add(_context.LessonGroups.Where(g => g.Id.Equals(item))
 										  .Include(g => g.lessonGruopClasses).Include(g => g.Lesson)
-										  .FirstOrDefault());
+										  .FirstOrDefault() ?? throw new ArgumentNullException());
 					}
 
 					foundedChart.LessonGruops = foundedGroups;
 					ResChartDetailsDto result = new ResChartDetailsDto();
+					result.ExamDates = new List<string>();
 
 					for(int i = 0; i < 6; i++)
 					{
@@ -70,6 +73,14 @@ namespace EV.Application.Services.Chart.Queries.GetChartDetails
 
 						result.LessonsOnDay[i] = item;
 
+					}
+
+					foreach(var item in foundedGroups.OrderBy(g => g.ExamDate))
+					{
+						result.ExamDates.Add
+							(
+								$"{item.ExamDate.ToShortTimeString()} - {ConvertDate.ToFa(item.ExamDate)} - {DayToPersian(item.ExamDate)}"
+							);
 					}
 
 					return new Result<ResChartDetailsDto>()
@@ -139,6 +150,33 @@ namespace EV.Application.Services.Chart.Queries.GetChartDetails
 			}
 
 			return null;
+		}
+		private string DayToPersian (DateTime dateTime)
+		{
+			switch(dateTime.DayOfWeek)
+			{
+				case DayOfWeek.Saturday:
+					return "شنبه";
+
+				case DayOfWeek.Sunday:
+					return "یک شنبه";
+
+				case DayOfWeek.Monday:
+					return "دو شنبه"; 
+
+				case DayOfWeek.Tuesday:
+					return "سه شنبه";
+
+				case DayOfWeek.Wednesday:
+					return "چهار شنبه";
+
+				case DayOfWeek.Thursday:
+					return "پنج شنبه";
+
+				default:
+					throw new Exception();
+
+			}
 		}
 		private EDay GetDay (int number)
 		{

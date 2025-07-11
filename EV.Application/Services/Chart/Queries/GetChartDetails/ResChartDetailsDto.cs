@@ -3,5 +3,6 @@
 	public class ResChartDetailsDto
 	{
 		public ChartDetailsItem[] LessonsOnDay { get; set; } = new ChartDetailsItem[6];
+		public List<string> ExamDates { get; set; }
 	}
 }

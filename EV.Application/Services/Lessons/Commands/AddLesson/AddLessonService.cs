@@ -1,6 +1,9 @@
 ﻿using EV.Application.Interfaces.Context;
 using EV.Domain.Entities.Common;
 using EV.Domain.Entities.Lessson;
+using System.Globalization;
+using PersianDate;
+using PersianDate.Standard;
 
 namespace EV.Application.Services.Lessons.Commands.AddLesson
 {
@@ -36,7 +39,8 @@ namespace EV.Application.Services.Lessons.Commands.AddLesson
                         {
                             Code = item.Code,
                             TeacherName = item.TeacherName,
-                            LessonId = newLesson.Id
+                            LessonId = newLesson.Id,
+                            ExamDate = GetExamDateTime(item.ExamDate,item.ExamTime)
                         };
                         _context.LessonGroups.Add(newLessonGroup);
 						_context.SaveChanges();
@@ -78,5 +82,17 @@ namespace EV.Application.Services.Lessons.Commands.AddLesson
                 };
             }
         }
+
+        private DateTime GetExamDateTime (int[] ExamDate, TimeOnly ExamTime)
+        {
+
+            var result = ConvertDate.ToEn(ExamDate[0], ExamDate[1], ExamDate[2]);
+            result.AddHours(ExamTime.Hour);
+            result.AddMinutes(ExamTime.Minute);
+
+            return result;
+            
+        }
+
     }
 }

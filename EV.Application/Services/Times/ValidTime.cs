@@ -1,5 +1,6 @@
 ﻿using EV.Application.Services.Calculator.Queries;
 using EV.Domain.Entities.Time;
+using System.Reflection.Metadata.Ecma335;
 
 
 namespace EV.Application.Services.Times
@@ -44,5 +45,27 @@ namespace EV.Application.Services.Times
             return true;
         }
 
+        public static bool CheckValidExamDate(CalculateItemDto target, List<CalculateItemDto> existTimes)
+        {
+            foreach (var item in existTimes)
+            {
+                if(target.ExamDate.Date == item.ExamDate.Date)
+                {
+                    if((target.ExamDate.TimeOfDay < item.ExamDate.AddHours(2).TimeOfDay) && 
+                     (target.ExamDate.TimeOfDay >= item.ExamDate.TimeOfDay))
+                    {
+                        return false;
+                    }
+
+                    else if((item.ExamDate.TimeOfDay < target.ExamDate.AddHours(2).TimeOfDay) &&
+                            (item.ExamDate.TimeOfDay >= target.ExamDate.TimeOfDay))
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
 	}
 }
