@@ -20,6 +20,7 @@
 	<link rel="stylesheet" type="text/css" href="~/css/bootstrap4-rtl.min.css">
 	<link rel="stylesheet" type="text/css" href="~/css/font-awesome.min.css">
 	<link rel="stylesheet" type="text/css" href="~/css/style.css" />
+	<link rel="stylesheet" href="~/css/flatpickr.min.css" />
 </head>
 <body class="rtl">
 	<div class="contact1">
@@ -53,6 +54,22 @@
 
 								<label>نام استاد</label>
 								<input class="input1" name="Groups[0].TeacherName" type="text">
+								<span class="shadow-input1"></span>
+								<br />
+
+								<label>تاریخ امتحان</label>
+
+								<h6>سال</h6>
+								<input required class="input1" name="Groups[0].ExamDate[0]" type="number" placeholder="1404">
+
+								<h6>ماه</h6>
+								<input required class="input1" name="Groups[0].ExamDate[1]" type="number" placeholder="05">
+
+								<h6>روز</h6>
+								<input required class="input1" name="Groups[0].ExamDate[2]" type="number" placeholder="20">
+
+								<h6>ساعت</h6>
+								<input required class="input1" id="timePicker0" name="Groups[0].ExamTime" type="time" min="3:00" max="23:59" step="900">
 								<span class="shadow-input1"></span>
 								<br />
 
@@ -115,6 +132,7 @@
 	<!-- Scripts -->
 	<script src="~/js/jquery-3.1.1.min.js"></script>
 	<script src="~/js/scripts.js"></script>
+	<script src="~/js/flatpickr.min.js"></script>
 	<script>
 		let Times = @Html.Raw(JsonConvert.SerializeObject(times.Times));
 		let Days = @Html.Raw(JsonConvert.SerializeObject(days.Days));
@@ -131,8 +149,10 @@
 			DaysOption += `<option value="${item.Value}">${item.Day}</option>`;
 		}
 
+		
 		let classesIndex = [1];
 		let groupsIndex = 1;
+		let timePickerIndex = 1;
 
 		function addClass(groupIndex){
 
@@ -171,6 +191,23 @@
 								<span class="shadow-input1"></span>
 								<br />
 
+								<label>تاریخ امتحان</label>
+
+								<h6>سال</h6>
+								<input class="input1" name="Groups[${groupsIndex}].ExamDate[0]" type="number" placeholder="1404">
+
+								<h6>ماه</h6>
+								<input class="input1" name="Groups[${groupsIndex}].ExamDate[1]" type="number" placeholder="05">
+
+								<h6>روز</h6>
+								<input class="input1" name="Groups[${groupsIndex}].ExamDate[2]" type="number" placeholder="20">
+
+								<h6>ساعت</h6>
+								<input required class="input1" id="timePicker${timePickerIndex}" name="Groups[${groupsIndex}].ExamTime" type="time" min="3:00" max="23:59" step="900">
+
+								<span class="shadow-input1"></span>
+								<br />
+
 								<div id="classes${groupsIndex}">
 									<div>
 										<h5>کلاس 1</h5>
@@ -198,7 +235,23 @@
 			document.getElementById("groups").appendChild(newGroup);
 			groupsIndex++;
 			classesIndex.push(1);
+
+			flatpickr(`#timePicker${timePickerIndex}`, {
+			enableTime: true,
+			noCalendar: true,
+			dateFormat: "H:i",  // 24 ساعته
+			time_24hr: true
+			});
+
+			timePickerIndex++;
 		}
+
+		flatpickr("#timePicker0", {
+			enableTime: true,
+			noCalendar: true,
+			dateFormat: "H:i",  // 24 ساعته
+			time_24hr: true
+		});
 	</script>
 	
 </body><!-- This template has been downloaded from Webrubik.com -->

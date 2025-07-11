@@ -55,6 +55,28 @@
 							</tbody>
 
 						</table>
+						<br /> <br />
+
+						<table class="table table-striped table-bordered zero-configuration dataTable" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info">
+							<thead>
+								<tr role="row">
+									<th class="sorting_asc" style="width: 222px;">درس</th>
+									<th class="sorting_asc" style="width: 222px;">تاریخ امتحان</th>
+								</tr>
+							</thead>
+							<tbody>
+								
+								@foreach(var item in Model.Data.ExamDates)
+								{
+									<tr role="row">
+										<td class="sorting" style="width: 401px;">@item.LessonName</td>
+										<td class="sorting" style="width: 401px;">@item.ExamDate</td>
+									</tr>
+								}
+							</tbody>
+
+						</table>
+
 					</div>
 
 				</div>

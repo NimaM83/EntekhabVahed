@@ -39,7 +39,7 @@ namespace EV.Application.Services.Chart.Queries.GetChartDetails
 
 					foundedChart.LessonGruops = foundedGroups;
 					ResChartDetailsDto result = new ResChartDetailsDto();
-					result.ExamDates = new List<string>();
+					result.ExamDates = new List<ExamDateItem>();
 
 					for(int i = 0; i < 6; i++)
 					{
@@ -77,10 +77,12 @@ namespace EV.Application.Services.Chart.Queries.GetChartDetails
 
 					foreach(var item in foundedGroups.OrderBy(g => g.ExamDate))
 					{
-						result.ExamDates.Add
-							(
-								$"{item.ExamDate.ToShortTimeString()} - {ConvertDate.ToFa(item.ExamDate)} - {DayToPersian(item.ExamDate)}"
-							);
+						result.ExamDates.Add(new ExamDateItem()
+						{
+							ExamDate = $"{DayToPersian(item.ExamDate)} - {ConvertDate.ToFa(item.ExamDate)} - {TimeOnly.FromTimeSpan(item.ExamDate.TimeOfDay).ToString("HH:mm")}",
+							LessonName = $"({item.TeacherName}){item.Lesson.Name}"
+						});
+							
 					}
 
 					return new Result<ResChartDetailsDto>()
