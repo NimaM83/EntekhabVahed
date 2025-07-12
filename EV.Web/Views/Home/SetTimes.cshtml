@@ -31,11 +31,11 @@
 							<label>ساعت 1:</label>
 							<div class="wrap-input1 validate-input" data-validate="تعداد ساعات کلاس">
 								<label>از</label>
-								<input required class="input1" id="timePicker" name="Times[0].From" type="time" min="3:00" max="23:59" step="900">
+								<input required class="input1" id="timePicker0" name="Times[0].From" type="time" min="3:00" max="23:59" step="900">
 								<span class="shadow-input1"></span>
 								<br />
 								<label>تا</label>
-								<input required class="input1" id="timePicker" name="Times[0].To" type="time" min="3:00" max="23:59" step="900">
+								<input required class="input1" id="timePicker0" name="Times[0].To" type="time" min="3:00" max="23:59" step="900">
 								<span class="shadow-input1"></span>
 								<br /><br />
 							</div>
@@ -63,17 +63,18 @@
 	<script>
 
 		let TimesIndex = 1;
+		let flatPickerIndex = 1;
 
 		function addTime(){
 			let newLi = document.createElement("li");
 			newLi.innerHTML = `<label>ساعت ${TimesIndex+1}:</label>
 								<div class="wrap-input1 validate-input" data-validate="تعداد ساعات کلاس">
 								<label>از</label>
-								<input class="input1" id="timePicker" name="Times[${TimesIndex}].From"  type="time" min="3:00" max="23:59" step="900">
+								<input class="input1" id="timePicker${flatPickerIndex}" name="Times[${TimesIndex}].From"  type="time" min="3:00" max="23:59" step="900">
 								<span class="shadow-input1"></span>
 								<br />
 								<label>تا</label>
-								<input class="input1" id="timePicker" name="Times[${TimesIndex}].To" type="time" min="3:00" max="23:59" step="900">
+								<input class="input1" id="timePicker${flatPickerIndex}" name="Times[${TimesIndex}].To" type="time" min="3:00" max="23:59" step="900">
 								<span class="shadow-input1"></span>
 								<br /><br />
 							</div>`;
@@ -82,16 +83,18 @@
 
 			TimesIndex ++;
 
-			flatpickr("#timePicker", {
+			flatpickr(`#timePicker${flatPickerIndex}`, {
 			enableTime: true,
 			noCalendar: true,
 			dateFormat: "H:i",  // 24 ساعته
 			time_24hr: true
 			});
+
+			flatPickerIndex ++;
 		}
 	</script>
 	<script>
-		flatpickr("#timePicker", {
+		flatpickr("#timePicker0", {
 			enableTime: true,
 			noCalendar: true,
 			dateFormat: "H:i",  // 24 ساعته

@@ -4,6 +4,7 @@
 @{
 	Layout = null;
 	string EVTitle = "";
+	string pdfPath = ViewBag.pdfPath; 
 }
 @model Result<ResGetEvsDto>
 
@@ -97,6 +98,8 @@
 
 						<button type="submit" class="btn btn-primary">ادامه</button>
 					</form>
+
+					<button class="btn btn-info" onclick="ShowPDF(@pdfPath)">آموزش کار با ابزار</button>
 				</div>
 
 			</div>
@@ -105,5 +108,13 @@
 	<!-- Scripts -->
 	<script src="~/js/jquery-3.1.1.min.js"></script>
 	<script src="~/js/scripts.js"></script>
+
+	<script>
+
+		function ShowPDF(pdfPath){
+
+			window.open(pdfPath,'_blank');
+		}
+	</script>
 </body><!-- This template has been downloaded from Webrubik.com -->
 </html>

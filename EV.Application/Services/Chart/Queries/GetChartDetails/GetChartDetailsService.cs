@@ -61,8 +61,8 @@ namespace EV.Application.Services.Chart.Queries.GetChartDetails
 											lessonsOnDay[k].Time.To.Equals(foundedTimes[j].To))
 										{
 											item.Lessons[j] = $"{lessonsOnDay[k].Lesson.Name}\n" +
-															  $"{lessonsOnDay[k].LessonGroup.TeacherName}\n" +
-															  $"{lessonsOnDay[k].LessonGroup.Code}";
+															  $" - {lessonsOnDay[k].LessonGroup.TeacherName}\n" +
+															  $" - ({lessonsOnDay[k].LessonGroup.Code})";
 											
 											break;
 										}
@@ -80,7 +80,7 @@ namespace EV.Application.Services.Chart.Queries.GetChartDetails
 						result.ExamDates.Add(new ExamDateItem()
 						{
 							ExamDate = $"{DayToPersian(item.ExamDate)} - {ConvertDate.ToFa(item.ExamDate)} - {TimeOnly.FromTimeSpan(item.ExamDate.TimeOfDay).ToString("HH:mm")}",
-							LessonName = $"({item.TeacherName}){item.Lesson.Name}"
+							LessonName = $"{item.Lesson.Name}({item.TeacherName})"
 						});
 							
 					}
