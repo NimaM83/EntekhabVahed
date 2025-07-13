@@ -4,7 +4,8 @@
 @{
 	Layout = null;
 	string EVTitle = "";
-	string pdfPath = ViewBag.pdfPath; 
+	string pdfPath = ViewBag.pdfPath;
+	int n = 0;
 }
 @model Result<ResGetEvsDto>
 
@@ -99,7 +100,7 @@
 						<button type="submit" class="btn btn-primary">ادامه</button>
 					</form>
 
-					<button class="btn btn-info" onclick="ShowPDF(@pdfPath)">آموزش کار با ابزار</button>
+					<button class="btn btn-info" onclick="ShowPDF()">آموزش کار با ابزار</button>
 				</div>
 
 			</div>
@@ -111,8 +112,9 @@
 
 	<script>
 
-		function ShowPDF(pdfPath){
+		function ShowPDF(){
 
+			let pdfPath = `@ViewBag.pdfPath`;
 			window.open(pdfPath,'_blank');
 		}
 	</script>

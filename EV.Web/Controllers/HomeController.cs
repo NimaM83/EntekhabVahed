@@ -21,6 +21,7 @@ namespace EV.Web.Controllers
 
         public IActionResult Index()
         {
+            ViewBag.pdfPath = "/pdf/help.pdf";
             return View(_services.EVsServices.GetEVs.Execute());
         }
 
