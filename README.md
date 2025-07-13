@@ -33,7 +33,7 @@ dotnet tool install --global dotnet-ef
 
 ### 4. ساخت و به‌روزرسانی دیتابیس با EF Core 
 
-bash
+bash 
 cd EntekhbVahed 
 dotnet ef database update --project ./EV.Presistance/EV.Presistance.csproj --startup-project ./EV.Web/EV.Web.csproj  
 
